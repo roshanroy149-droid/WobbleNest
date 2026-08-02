@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<!-- Titled for the not-found case, because that is the one that renders without scripting.
+     The invite view retitles itself with the code once it has one.
+
+     The og: tags below go the other way and describe the invite, because they are only ever
+     read when someone shares a link — and the links people share are invites. A mistyped URL
+     does not get posted to a group chat. -->
+<title>Page not found — Wobblenest</title>
+<meta name="description" content="Someone invited you to Wobblenest. Keep your invite code — it gets you a free month of Wobblenest+ when you sign up." />
+<meta name="theme-color" content="#A85560" />
+<!-- Invite URLs are one per person and there is an unbounded number of them; none of them
+     belong in an index. -->
+<meta name="robots" content="noindex" />
+<link rel="icon" type="image/png" href="/favicon.png" />
+<meta property="og:title" content="You've been invited to Wobblenest" />
+<meta property="og:description" content="A dating app built for real connection. Your invite gets you a free month of Wobblenest+." />
+<meta property="og:image" content="/icon.png" />
+<meta property="og:type" content="website" />
+<link rel="stylesheet" href="/styles.css" />
+<style>
+  /* Join-specific styling only. Deliberately inline rather than appended to styles.css:
+     that file is cached hard by the Pages CDN and shared with index.html, so touching it
+     means versioning the link on every page to avoid serving stale CSS. This page is the
+     only thing that needs these rules. */
+
+  /* Every value below is a multiple of 8, matching the vertical rhythm of the panel. */
+  .join {
+    padding: 72px 0 40px;
+    text-align: center;
+  }
+
+  .join-panel {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 24px;
+    box-shadow: var(--shadow);
+    max-width: 560px;
+    margin: 0 auto;
+    padding: 40px 32px;
+  }
+
+  .join h1 {
+    font-size: clamp(28px, 5vw, 44px);
+    line-height: 1.12;
+    letter-spacing: -0.5px;
+    font-weight: 700;
+    margin: 0 0 16px;
+  }
+
+  .join h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .join p {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    color: var(--muted);
+    font-size: 15px;
+    line-height: 1.6;
+    margin: 0 auto;
+    max-width: 424px;
+  }
+
+  .code-label {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+    color: var(--muted-soft);
+    margin: 32px 0 8px;
+  }
+
+  .code-chip {
+    display: block;
+    width: 100%;
+    background: var(--accent-soft);
+    border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
+    border-radius: 16px;
+    padding: 24px;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    /* Sized down a little on narrow screens so six characters at 8px of tracking cannot
+       overflow the panel it sits in. */
+    font-size: clamp(28px, 8vw, 40px);
+    font-weight: 700;
+    letter-spacing: 8px;
+    /* No text-indent here to offset the trailing letter-spacing, which is the usual advice.
+       Measured instead of assumed: the glyph run either side of centre is already equal to
+       within a pixel, and adding an indent moved it off by exactly the indent. */
+    color: var(--accent);
+    user-select: all;
+    -webkit-user-select: all;
+  }
+
+  .copy-btn {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    margin-top: 16px;
+    padding: 12px 24px;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    background: transparent;
+    color: var(--ink);
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: border-color 0.2s ease, color 0.2s ease;
+  }
+
+  .copy-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .copy-btn[data-copied="true"] { border-color: var(--accent); color: var(--accent); }
+
+  .join-note {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-size: 13px;
+    color: var(--muted-soft);
+    line-height: 1.6;
+    margin: 32px auto 0;
+    max-width: 424px;
+    padding-top: 24px;
+    border-top: 1px solid var(--line);
+  }
+
+  .join-actions {
+    margin-top: 32px;
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  /* .btn sets cursor:default because every button on the landing page is a placeholder.
+     These two are real links. */
+  .join-actions .btn { cursor: pointer; text-decoration: none; }
+</style>
+</head>
+<body>
+
+<div class="bg-scene">
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+  <div class="blob blob-4"></div>
+</div>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="brand" href="/">
+      <img src="/icon.png" alt="Wobblenest" />
+      <span>Wobblenest</span>
+    </a>
+    <span class="nav-pill">Coming soon</span>
+  </div>
+</nav>
+
+<!-- Two views, one file.
+     GitHub Pages serves static paths only — there is no rewrite rule and no server to run
+     one — so /join/ABC123 has no file behind it and falls through to this 404 page. That is
+     the intended mechanism, not a workaround: it is the single place every unmatched path
+     arrives, which makes it the only place a per-code invite can be rendered at all.
+
+     Consequence worth knowing: the response carries HTTP 404 no matter which view shows.
+     Readers never see a status code, but a link unfurler may decline to build a preview
+     from one, and that cannot be fixed without moving off Pages.
+
+     The not-found view is the one in the markup by default, so a request that genuinely is
+     a wrong URL is answered correctly with scripting off. -->
+
+<main class="join">
+  <div class="wrap">
+
+    <section id="invite" class="join-panel" hidden>
+      <span class="eyebrow"><span class="dot"></span>YOU'VE BEEN INVITED</span>
+      <h1>Someone saved you <em>a spot</em>.</h1>
+      <p>Wobblenest is a dating app for people who want intention, not noise. Your invite gets you a free month of Wobblenest+ when you join.</p>
+
+      <div class="code-label">Your invite code</div>
+      <code class="code-chip" id="code">······</code>
+      <button class="copy-btn" id="copy" type="button">Copy code</button>
+
+      <p class="join-note">
+        Wobblenest hasn't launched yet. Keep this code somewhere safe — enter it when you
+        sign up and the free month is applied straight away.
+      </p>
+
+      <div class="join-actions">
+        <a class="btn btn-ghost" href="/">See what Wobblenest is</a>
+      </div>
+    </section>
+
+    <section id="notfound" class="join-panel">
+      <span class="eyebrow"><span class="dot"></span>PAGE NOT FOUND</span>
+      <h1>This page isn't <em>here</em>.</h1>
+      <p>The link may be broken, or the page may have moved.</p>
+      <noscript>
+        <p class="join-note">
+          If you followed an invite link, it needs JavaScript to read your code. Turn it on
+          and reload, or ask your friend to send you the six-character code directly.
+        </p>
+      </noscript>
+      <div class="join-actions">
+        <a class="btn btn-primary" href="/">Go to the homepage</a>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<footer>
+  <div class="wrap footer-inner">
+    <div class="footer-brand">
+      <img src="/icon.png" alt="Wobblenest" />
+      <span>Wobblenest</span>
+    </div>
+    <div class="footer-meta">
+      Coming soon · <a href="mailto:helpdesk@wobblenest.com">helpdesk@wobblenest.com</a>
+      <br>© 2026 Wobblenest. All rights reserved.
+    </div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  // Six characters, matching generate_referral_code() in the app's database and the parser
+  // in src/lib/referralLink.ts. Anything else is not an invite and falls through to the
+  // not-found view — including /join/ with nothing after it.
+  var match = /^\/join\/([A-Za-z0-9]{6})\/?$/.exec(window.location.pathname);
+  if (!match) return;
+
+  var code = match[1].toUpperCase();
+
+  document.getElementById('code').textContent = code;
+  document.getElementById('notfound').hidden = true;
+  document.getElementById('invite').hidden = false;
+  document.title = 'Join Wobblenest with code ' + code;
+
+  var button = document.getElementById('copy');
+  button.addEventListener('click', function () {
+    // Clipboard access is refused outright in some in-app browsers, and the whole point of
+    // this page is that the code stays readable — so a failure says so rather than
+    // pretending it worked. The code itself is user-select:all, so it can still be copied
+    // by hand either way.
+    var done = function (ok) {
+      button.textContent = ok ? 'Copied' : 'Press and hold the code to copy';
+      button.dataset.copied = String(ok);
+      if (ok) {
+        setTimeout(function () {
+          button.textContent = 'Copy code';
+          button.dataset.copied = 'false';
+        }, 2000);
+      }
+    };
+
+    if (!navigator.clipboard) return done(false);
+    navigator.clipboard.writeText(code).then(function () { done(true); }, function () { done(false); });
+  });
+})();
+</script>
+
+</body>
+</html>

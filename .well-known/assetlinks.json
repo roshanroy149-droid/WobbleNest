@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.venrostech.wobblenest",
+      "sha256_cert_fingerprints": [
+        "C6:84:17:6A:7B:9D:27:81:FD:40:98:78:3E:BF:BB:73:66:C6:3C:EB:7F:34:37:E1:08:C0:CC:6E:DA:E1:C6:6A"
+      ]
+    }
+  }
+]
