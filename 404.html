@@ -132,9 +132,9 @@
     flex-wrap: wrap;
   }
 
-  /* .btn sets cursor:default because every button on the landing page is a placeholder.
-     These two are real links. */
-  .join-actions .btn { cursor: pointer; text-decoration: none; }
+  /* .btn is a real link everywhere now and already sets cursor:pointer, so only the
+     underline still needs clearing here. */
+  .join-actions .btn { text-decoration: none; }
 </style>
 </head>
 <body>
@@ -152,7 +152,7 @@
       <img src="/icon.png" alt="Wobblenest" />
       <span>Wobblenest</span>
     </a>
-    <span class="nav-pill">Coming soon</span>
+    <a class="nav-pill" href="/waitlist.html">Join the waitlist</a>
   </div>
 </nav>
 
@@ -216,7 +216,8 @@
       <span>Wobblenest</span>
     </div>
     <div class="footer-meta">
-      Coming soon · <a href="mailto:helpdesk@wobblenest.com">helpdesk@wobblenest.com</a>
+      <a href="/waitlist.html">Join the waitlist</a> ·
+      <a href="mailto:helpdesk@wobblenest.com">helpdesk@wobblenest.com</a>
       <br>© 2026 Wobblenest. All rights reserved.
     </div>
   </div>

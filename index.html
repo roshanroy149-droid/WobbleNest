@@ -4,11 +4,11 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Wobblenest — Dating with intention</title>
-<meta name="description" content="Wobblenest is a dating app built for real connection — set your intention, protect your privacy, and match on what actually matters. Coming soon." />
+<meta name="description" content="Wobblenest is a dating app built for real connection — say what you're looking for, keep your face private until you choose, and meet people close to where you already are. Join the waitlist." />
 <meta name="theme-color" content="#A85560" />
 <link rel="icon" type="image/png" href="favicon.png" />
 <meta property="og:title" content="Wobblenest — Dating with intention" />
-<meta property="og:description" content="A dating app built for real connection. Coming soon." />
+<meta property="og:description" content="A dating app built for real connection. Opening one neighbourhood at a time — join the waitlist." />
 <meta property="og:image" content="icon.png" />
 <meta property="og:type" content="website" />
 <link rel="stylesheet" href="styles.css" />
@@ -28,8 +28,6 @@
       <img src="icon.png" alt="Wobblenest" />
       <span>Wobblenest</span>
     </a>
-    <!-- The nav is sticky, so this is the one call to action visible at every scroll
-         position. It said "Coming soon", which is a status, not an invitation. -->
     <a class="nav-pill" href="waitlist.html">Join the waitlist</a>
   </div>
 </nav>
@@ -37,21 +35,36 @@
 <header class="hero" id="top">
   <div class="wrap">
     <span class="eyebrow"><span class="dot"></span>LAUNCHING SOON</span>
-    <h1>Some connections are worth <em>building a nest</em> for.</h1>
+    <h1>Some connections are worth <em class="grad">building a nest</em> for.</h1>
     <p class="lede">
-      Wobblenest is a dating app for people who want intention, not noise.
-      Say what you're actually looking for, keep what's private truly private,
-      and match on the things you'd actually talk about on a first date.
+      A dating app for people who want intention, not noise. Say what you're actually
+      looking for, keep what's private truly private, and meet people close to where you
+      already are.
     </p>
-    <!-- Was a <span> styled as a button: it looked like the page's primary action and
-         did nothing when clicked. The waitlist page it should have pointed at exists. -->
     <div class="cta-row">
       <a class="btn btn-primary" href="waitlist.html">Join the waitlist</a>
+      <a class="btn btn-ghost" href="#features">See what's inside</a>
     </div>
     <p class="cta-note">
       We open one neighbourhood at a time — tell us yours and we'll say when it's ready.
       Android first, iPhone next.
     </p>
+
+    <!-- The list is written twice so the marquee can shift by exactly half its width and
+         loop without a visible seam. aria-hidden on the duplicate: a screen reader should
+         hear each of these once, not twice. -->
+    <div class="rail" aria-label="What's inside Wobblenest">
+      <div class="rail-track">
+        <span>Intention-first matching</span><span>Blur your photos</span><span>Circle</span>
+        <span>Events near you</span><span>Duos</span><span>Voice prompts</span>
+        <span>Verified profiles</span><span>Passport</span><span>Private photos</span>
+        <span>Screenshots blocked</span><span>Icebreakers</span><span>No swiping</span>
+        <span aria-hidden="true">Intention-first matching</span><span aria-hidden="true">Blur your photos</span><span aria-hidden="true">Circle</span>
+        <span aria-hidden="true">Events near you</span><span aria-hidden="true">Duos</span><span aria-hidden="true">Voice prompts</span>
+        <span aria-hidden="true">Verified profiles</span><span aria-hidden="true">Passport</span><span aria-hidden="true">Private photos</span>
+        <span aria-hidden="true">Screenshots blocked</span><span aria-hidden="true">Icebreakers</span><span aria-hidden="true">No swiping</span>
+      </div>
+    </div>
 
     <div class="constellation" aria-hidden="true">
       <svg viewBox="0 0 620 300" preserveAspectRatio="none">
@@ -62,7 +75,7 @@
       <div class="node node-1"><img src="icon.png" alt="" /></div>
       <div class="node node-2"></div>
       <div class="node node-3"></div>
-      <div class="node node-4"><img src="icon.png" alt="Wobblenest" /></div>
+      <div class="node node-4"><img src="icon.png" alt="" /></div>
       <span class="heart heart-1">♥</span>
       <span class="heart heart-2">♥</span>
       <span class="heart heart-3">♥</span>
@@ -70,55 +83,239 @@
   </div>
 </header>
 
-<section id="why">
+<section id="features">
   <div class="wrap">
     <div class="section-head">
-      <div class="kicker">Why Wobblenest</div>
-      <h2>Built to slow swiping down, on purpose.</h2>
-      <p>Every feature exists to get you to a real conversation faster — not to keep you swiping longer.</p>
+      <div class="kicker">What's inside</div>
+      <h2>Eighteen things that make it <span class="grad">different</span>.</h2>
+      <p>Every one of them exists to get you to a real conversation faster — not to keep you swiping longer.</p>
     </div>
-    <div class="grid">
-      <div class="card">
-        <div class="icon-wrap c-accent">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="8.5" />
-            <circle cx="12" cy="12" r="5" />
-            <circle cx="12" cy="12" r="1.3" fill="currentColor" stroke="none" />
-          </svg>
-        </div>
-        <h3>Intention-first matching</h3>
-        <p>Tell us what you're actually looking for — casual, serious, something in between — and we match you against people who want the same thing.</p>
+
+    <div class="cluster">
+      <div class="cluster-head">
+        <h3>Dating, done differently</h3>
+        <span>Matching that starts from what you want</span>
       </div>
-      <div class="card">
-        <div class="icon-wrap c-b1">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="5" y="10.5" width="14" height="9" rx="2.2" />
-            <path d="M8 10.5V7.8a4 4 0 0 1 8 0v2.7" />
-            <circle cx="12" cy="14.8" r="1.2" fill="currentColor" stroke="none" />
-          </svg>
+      <div class="grid">
+
+        <div class="card">
+          <div class="icon-wrap c-accent">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="8.5" /><circle cx="12" cy="12" r="5" />
+              <circle cx="12" cy="12" r="1.3" fill="currentColor" stroke="none" />
+            </svg>
+          </div>
+          <h4>Intention-first matching</h4>
+          <p>Say what you're looking for — casual, serious, somewhere in between — before you see a single profile. You're matched against people who want the same.</p>
         </div>
-        <h3>Your photos, your rules</h3>
-        <p>Keep certain photos private by default. Someone has to ask, and you decide who gets to see them — not the algorithm.</p>
+
+        <div class="card">
+          <div class="icon-wrap c-gold">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 11.5V5.2a1.7 1.7 0 0 1 3.4 0v5.1" />
+              <path d="M12.4 10.8V9.4a1.6 1.6 0 0 1 3.2 0v1.6M15.6 11.2v-.9a1.6 1.6 0 0 1 3.2 0V15a5.5 5.5 0 0 1-5.5 5.5h-1.2a5.6 5.6 0 0 1-4.4-2.2L5 15.2a1.6 1.6 0 0 1 2.5-2l1.5 1.6" />
+            </svg>
+          </div>
+          <h4>Tap, don't swipe</h4>
+          <p>You decide with a tap, on a card that shows a whole person rather than one cropped photo. No streaks, no timers, no pressure to keep going.</p>
+        </div>
+
+        <div class="card">
+          <div class="icon-wrap c-a1">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="9.3" cy="12" r="6.3" /><circle cx="14.7" cy="12" r="6.3" />
+            </svg>
+          </div>
+          <h4>Shared interests, surfaced</h4>
+          <p>We show you exactly what you have in common with someone before you match — so the spark has something real to start from.</p>
+        </div>
+
+        <div class="card">
+          <div class="icon-wrap c-b1">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 12.2a7 7 0 0 1-7 7H8.2L4 22l1.1-4.4A7 7 0 1 1 20 12.2Z" />
+              <path d="M8.7 10.6h6.6M8.7 13.4h4.3" />
+            </svg>
+          </div>
+          <h4>Icebreakers that fit</h4>
+          <p>No more staring at a blank message box. Openers are built from what you and the person you just matched with actually share.</p>
+        </div>
+
+        <div class="card">
+          <div class="icon-wrap c-b2">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20.5 6.5 10 17l-4.5-4.5" /><path d="M3.5 12.5 8 17" />
+            </svg>
+          </div>
+          <h4>You both get told</h4>
+          <p>When it's mutual, both of you find out at the same time. No wondering whether a like landed, and nothing hidden behind an upgrade.</p>
+        </div>
+
+        <div class="card">
+          <div class="icon-wrap c-a2">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 21s7-5.2 7-10.4A7 7 0 0 0 5 10.6C5 15.8 12 21 12 21Z" />
+              <circle cx="12" cy="10.4" r="2.5" />
+            </svg>
+          </div>
+          <h4>One neighbourhood at a time</h4>
+          <p>An area opens only once there are enough people in it. Your first session is of a populated app, not an empty one you never come back to.</p>
+        </div>
+
       </div>
-      <div class="card">
-        <div class="icon-wrap c-a1">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="9.3" cy="12" r="6.3" />
-            <circle cx="14.7" cy="12" r="6.3" />
-          </svg>
-        </div>
-        <h3>Shared interests, surfaced</h3>
-        <p>We highlight exactly what you have in common with someone before you match — so the spark has something real to start from.</p>
+    </div>
+
+    <div class="cluster">
+      <div class="cluster-head">
+        <h3>Your face, your rules</h3>
+        <span>Privacy that is on by choice, not by settings menu</span>
       </div>
-      <div class="card">
-        <div class="icon-wrap c-b2">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M20 12.2a7 7 0 0 1-7 7H8.2L4 22l1.1-4.4A7 7 0 1 1 20 12.2Z" />
-            <path d="M8.7 10.6h6.6M8.7 13.4h4.3" />
-          </svg>
+      <div class="grid">
+
+        <div class="card">
+          <div class="icon-wrap c-accent">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3.5 12S6.8 5.8 12 5.8 20.5 12 20.5 12 17.2 18.2 12 18.2 3.5 12 3.5 12Z" />
+              <path d="M9.4 12h5.2M10.2 9.8h3.6M10.2 14.2h3.6" />
+            </svg>
+          </div>
+          <h4>Blur your photos</h4>
+          <p>Strangers see a blur, not your face. Reveal it when you match — or when someone asks and you decide they can.</p>
         </div>
-        <h3>Conversations that start right</h3>
-        <p>No more staring at a blank message box. Get icebreakers built from what you actually share with the person you just matched with.</p>
+
+        <div class="card">
+          <div class="icon-wrap c-gold">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="5" y="10.5" width="14" height="9" rx="2.2" />
+              <path d="M8 10.5V7.8a4 4 0 0 1 8 0v2.7" />
+              <circle cx="12" cy="14.8" r="1.2" fill="currentColor" stroke="none" />
+            </svg>
+          </div>
+          <h4>Private photos, by request</h4>
+          <p>Keep certain photos locked by default. Someone has to ask, and you decide who gets to see them — one person at a time, and never the algorithm.</p>
+        </div>
+
+        <div class="card">
+          <div class="icon-wrap c-a1">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 3.2 19.5 6v6c0 4.2-3 7.2-7.5 8.8C7.5 19.2 4.5 16.2 4.5 12V6Z" />
+              <path d="M9 12.2 11.2 14.4 15.2 10.4" />
+            </svg>
+          </div>
+          <h4>Verified with a live gesture</h4>
+          <p>The badge means someone actually checked. You're asked to hold a pose we pick on the spot, so a saved photo can't pass — and the selfie is deleted either way.</p>
+        </div>
+
+        <div class="card">
+          <div class="icon-wrap c-b1">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="4" y="3.5" width="16" height="17" rx="2.4" />
+              <path d="m6.5 6.5 11 11" />
+            </svg>
+          </div>
+          <h4>Screenshots blocked</h4>
+          <p>Across every screen in the app, not just the ones with photos on them. What you show one person stays with that person.</p>
+        </div>
+
+        <div class="card">
+          <div class="icon-wrap c-b2">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="8.5" />
+              <path d="M3.5 12h17M12 3.5c2.2 2.4 3.3 5.4 3.3 8.5S14.2 18.1 12 20.5c-2.2-2.4-3.3-5.4-3.3-8.5S9.8 5.9 12 3.5Z" />
+            </svg>
+          </div>
+          <h4>Coarse location only</h4>
+          <p>We never ask for your precise location, and what we do store is snapped to a grid before it is written down. Distance stays useful; your address stays yours.</p>
+        </div>
+
+        <div class="card">
+          <div class="icon-wrap c-a2">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 4.5H6.4A1.9 1.9 0 0 0 4.5 6.4v11.2a1.9 1.9 0 0 0 1.9 1.9H14" />
+              <path d="M17 8.5 20.5 12 17 15.5M20 12h-9" />
+            </svg>
+          </div>
+          <h4>Block, report, and leave</h4>
+          <p>Blocking unmatches and hides in both directions, immediately. And if you want out, you can delete your account for real or export everything we hold on you.</p>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="cluster">
+      <div class="cluster-head">
+        <h3>More than dating</h3>
+        <span>The same app, asking different questions</span>
+      </div>
+      <div class="grid">
+
+        <div class="card">
+          <div class="icon-wrap c-b2">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="8.5" /><circle cx="12" cy="12" r="3.4" />
+            </svg>
+          </div>
+          <h4>Circle</h4>
+          <p>Who to go climbing with, not who to date. Its own deck, its own colour, and kept completely separate — nobody crosses between the two by accident.</p>
+        </div>
+
+        <div class="card">
+          <div class="icon-wrap c-gold">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="4" y="5.5" width="16" height="14" rx="2.4" />
+              <path d="M4 10h16M8.5 3.5v4M15.5 3.5v4" />
+            </svg>
+          </div>
+          <h4>Events</h4>
+          <p>Real things happening near you, hosted by people on the app. Often the easier first step than a message — you turn up and the conversation is already happening.</p>
+        </div>
+
+        <div class="card">
+          <div class="icon-wrap c-accent">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="8.6" cy="9" r="3.1" /><circle cx="15.4" cy="9" r="3.1" />
+              <path d="M3.6 19.4a5.2 5.2 0 0 1 10 0M10.4 19.4a5.2 5.2 0 0 1 10 0" />
+            </svg>
+          </div>
+          <h4>Duos</h4>
+          <p>Pair up with a friend and meet another pair. Lower stakes than a first date on your own, and nobody is ever added to one without agreeing to it first.</p>
+        </div>
+
+        <div class="card">
+          <div class="icon-wrap c-a1">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="8.5" />
+              <path d="m14.8 9.2-1.4 4.2-4.2 1.4 1.4-4.2Z" />
+            </svg>
+          </div>
+          <h4>Passport</h4>
+          <p>Moving city, or just visiting? Look ahead at where you're going and start talking before you land, without pretending you already live there.</p>
+        </div>
+
+        <div class="card">
+          <div class="icon-wrap c-b1">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="9" y="3" width="6" height="11" rx="3" />
+              <path d="M5.5 11.5a6.5 6.5 0 0 0 13 0M12 18v3" />
+            </svg>
+          </div>
+          <h4>Voice prompts</h4>
+          <p>A few seconds of someone's voice tells you things a photo never will. Optional, on your profile, and nobody has to record one.</p>
+        </div>
+
+        <div class="card">
+          <div class="icon-wrap c-a2">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20.5 11.6a7.6 7.6 0 0 1-8.2 7.6L5 21l1.8-4.6A7.6 7.6 0 1 1 20.5 11.6Z" />
+              <circle cx="9.4" cy="11.6" r="1" fill="currentColor" stroke="none" />
+              <circle cx="12.8" cy="11.6" r="1" fill="currentColor" stroke="none" />
+              <circle cx="16.2" cy="11.6" r="1" fill="currentColor" stroke="none" />
+            </svg>
+          </div>
+          <h4>Chat that carries more</h4>
+          <p>Photos, voice notes and a location you meant to send — not a wall of text. Everything inside the conversation, nothing leaking out of it.</p>
+        </div>
+
       </div>
     </div>
   </div>
@@ -128,7 +325,7 @@
   <div class="wrap">
     <div class="section-head">
       <div class="kicker">How it works</div>
-      <h2>Three steps to something real.</h2>
+      <h2>Three steps to something <span class="grad">real</span>.</h2>
     </div>
     <div class="steps">
       <div class="step">
@@ -139,7 +336,7 @@
       <div class="step">
         <div class="num">2</div>
         <h3>Discover with purpose</h3>
-        <p>Browse profiles matched on intention and shared interests, not just proximity and a good photo.</p>
+        <p>Browse people matched on intention and shared interests, not just proximity and a good photo.</p>
       </div>
       <div class="step">
         <div class="num">3</div>
@@ -161,6 +358,9 @@
           kind of dating app we set out to make — one that's honest about the process,
           not just the outcome.
         </p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="waitlist.html">Join the waitlist</a>
+        </div>
         <div class="signature">— the Wobblenest team</div>
       </div>
     </div>
