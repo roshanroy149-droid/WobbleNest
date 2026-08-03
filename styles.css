@@ -130,6 +130,15 @@ img { max-width: 100%; display: block; }
   border-radius: 999px;
   padding: 7px 14px;
   white-space: nowrap;
+  /* An <a> now, not a <span>: without these it inherits the browser's underline and
+     link blue, which is the one cold colour on an otherwise warm page. */
+  text-decoration: none;
+  transition: background .15s, border-color .15s;
+}
+
+.nav-pill:hover {
+  background: color-mix(in srgb, var(--accent) 18%, transparent);
+  border-color: var(--accent);
 }
 
 /* ---------- Hero ---------- */
@@ -210,13 +219,29 @@ img { max-width: 100%; display: block; }
   font-weight: 700;
   text-decoration: none;
   border: 1px solid transparent;
-  cursor: default;
+  /* pointer, not default: this is a real link now. A default cursor over the page's
+     primary action reads as "not clickable", which is what it used to be. */
+  cursor: pointer;
+  transition: transform .15s, box-shadow .15s;
 }
 
 .btn-primary {
   background: var(--accent);
   color: var(--accent-ink);
   box-shadow: 0 12px 26px -10px color-mix(in srgb, var(--accent) 70%, transparent);
+}
+
+/* Same 4px lift the feature cards use, so the page has one hover idiom. */
+.btn:hover { transform: translateY(-2px); }
+.btn-primary:hover { box-shadow: 0 16px 30px -10px color-mix(in srgb, var(--accent) 78%, transparent); }
+
+.cta-note {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 13px;
+  color: var(--muted-soft);
+  max-width: 420px;
+  margin: 16px auto 0;
+  line-height: 1.55;
 }
 
 .btn-ghost {

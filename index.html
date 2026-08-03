@@ -28,7 +28,9 @@
       <img src="icon.png" alt="Wobblenest" />
       <span>Wobblenest</span>
     </a>
-    <span class="nav-pill">Coming soon</span>
+    <!-- The nav is sticky, so this is the one call to action visible at every scroll
+         position. It said "Coming soon", which is a status, not an invitation. -->
+    <a class="nav-pill" href="waitlist.html">Join the waitlist</a>
   </div>
 </nav>
 
@@ -41,9 +43,15 @@
       Say what you're actually looking for, keep what's private truly private,
       and match on the things you'd actually talk about on a first date.
     </p>
+    <!-- Was a <span> styled as a button: it looked like the page's primary action and
+         did nothing when clicked. The waitlist page it should have pointed at exists. -->
     <div class="cta-row">
-      <span class="btn btn-primary">🐦 Notify me at launch — coming soon</span>
+      <a class="btn btn-primary" href="waitlist.html">Join the waitlist</a>
     </div>
+    <p class="cta-note">
+      We open one neighbourhood at a time — tell us yours and we'll say when it's ready.
+      Android first, iPhone next.
+    </p>
 
     <div class="constellation" aria-hidden="true">
       <svg viewBox="0 0 620 300" preserveAspectRatio="none">
@@ -166,7 +174,8 @@
       <span>Wobblenest</span>
     </div>
     <div class="footer-meta">
-      Coming soon · <a href="mailto:hello@wobblenest.com">hello@wobblenest.com</a>
+      <a href="waitlist.html">Join the waitlist</a> ·
+      <a href="mailto:helpdesk@wobblenest.com">helpdesk@wobblenest.com</a>
       <br>© 2026 Wobblenest. All rights reserved.
     </div>
   </div>
