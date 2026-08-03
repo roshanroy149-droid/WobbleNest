@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Wobblenest — operator</title>
+
+<!--
+  The operator dashboard.
+
+  WHY THIS IS SAFE TO SERVE PUBLICLY. It holds no secret. The Supabase key below is the
+  anon key, the same one inside the mobile app, and every function it calls is `security
+  definer` with `is_admin()` in its body — so a stranger who opens this page and signs in
+  with an ordinary account sees empty tables, because the database returns nothing to
+  them. Authorisation is not decided here; it is decided in migration 0036 and cannot be
+  edited from a browser.
+
+  WHAT IT DELIBERATELY CANNOT DO, following the principle set in migration 0003: there is
+  no way to browse profiles, read messages, or list users. Only the two queues that need
+  working, and counts. Access surface is breach surface, and whatever a console can
+  enumerate, a stolen admin session can enumerate too. Suspension is offered because it is
+  reversible; deletion is not offered at all.
+-->
+
+<style>
+  :root {
+    --s1: 8px; --s2: 16px; --s3: 24px; --s4: 32px; --s5: 48px;
+    --bg: #FAF7F7; --surface: #FFFFFF; --ink: #2B1216; --muted: #6C565C;
+    --muted-soft: #9E888D; --line: #EADFE1; --accent: #8E2438; --accent-soft: #FDF7F8;
+    --ok: #0F6E63; --warn: #B08428; --bad: #C0392B;
+    --container: 1100px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1F2331; --surface: #14161F; --ink: #FFFFFF; --muted: #9BA1B5;
+      --muted-soft: #6E7488; --line: #2C3143; --accent: #E8798E; --accent-soft: #1B1F2C;
+      --ok: #2FB6A3;
+    }
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0; background: var(--surface); color: var(--ink);
+    font: 15px/1.5 -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: var(--container); margin: 0 auto; padding: var(--s4) var(--s3) var(--s5); }
+  header { display: flex; align-items: baseline; gap: var(--s2); margin-bottom: var(--s4); }
+  h1 { font-size: 20px; margin: 0; letter-spacing: -0.01em; }
+  .who { color: var(--muted); font-size: 13px; margin-left: auto; }
+  h2 { font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin: var(--s5) 0 var(--s2); }
+
+  .stats { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: var(--s2); }
+  .stat { background: var(--bg); border: 1px solid var(--line); border-radius: var(--s2); padding: var(--s2); }
+  .stat b { display: block; font-size: 26px; line-height: 1.1; letter-spacing: -0.02em; }
+  .stat span { color: var(--muted); font-size: 12px; }
+
+  .card { background: var(--bg); border: 1px solid var(--line); border-radius: var(--s2); padding: var(--s2); margin-bottom: var(--s2); }
+  .vrow { display: grid; grid-template-columns: 1fr 1fr auto; gap: var(--s2); align-items: start; }
+  @media (max-width: 720px) { .vrow { grid-template-columns: 1fr; } }
+  .shot { width: 100%; aspect-ratio: 3/4; object-fit: cover; border-radius: var(--s1); background: var(--line); }
+  .shot-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4px; }
+  .gesture { background: var(--accent-soft); border-radius: var(--s1); padding: var(--s2); margin-bottom: var(--s2); }
+  .gesture b { color: var(--accent); }
+
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th { text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); padding: var(--s1); border-bottom: 1px solid var(--line); }
+  td { padding: var(--s1); border-bottom: 1px solid var(--line); vertical-align: top; }
+  .scroll { overflow-x: auto; }
+
+  button {
+    font: inherit; font-size: 13px; font-weight: 600; cursor: pointer;
+    border: 1px solid var(--line); background: var(--surface); color: var(--ink);
+    border-radius: 999px; padding: 8px 14px;
+  }
+  button.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+  button.bad { color: var(--bad); border-color: var(--bad); }
+  button:disabled { opacity: .5; cursor: default; }
+  .actions { display: flex; flex-direction: column; gap: var(--s1); min-width: 120px; }
+  @media (max-width: 720px) { .actions { flex-direction: row; flex-wrap: wrap; } }
+
+  input {
+    font: inherit; font-size: 16px; width: 100%; color: var(--ink); background: var(--surface);
+    border: 1px solid var(--line); border-radius: var(--s1); padding: 12px var(--s2);
+  }
+  form.signin { max-width: 340px; display: grid; gap: var(--s2); }
+  .msg { font-size: 13px; color: var(--muted); }
+  .msg.err { color: var(--bad); }
+  .empty { color: var(--muted); font-size: 14px; padding: var(--s2) 0; }
+  .hide { display: none; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Wobblenest operator</h1>
+    <span class="who" id="who"></span>
+  </header>
+
+  <section id="signin">
+    <h2>Sign in</h2>
+    <p class="msg">Use your Wobblenest account. Everything below stays empty unless that account is an admin.</p>
+    <form class="signin" id="loginForm">
+      <input id="email" type="email" placeholder="you@example.com" autocomplete="username" />
+      <input id="password" type="password" placeholder="Password" autocomplete="current-password" />
+      <button class="primary" type="submit">Sign in</button>
+      <p class="msg" id="loginMsg"></p>
+    </form>
+  </section>
+
+  <div id="app" class="hide">
+    <h2>Today</h2>
+    <div class="stats" id="stats"></div>
+
+    <h2>Verification queue <span id="vCount" class="msg"></span></h2>
+    <div id="verifications"></div>
+
+    <h2>Reports <span id="rCount" class="msg"></span></h2>
+    <div class="scroll"><table id="reports"></table></div>
+
+    <h2>Waitlist by area</h2>
+    <div class="scroll"><table id="waitlist"></table></div>
+  </div>
+</div>
+
+<script type="module">
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+
+// Public by design — see the note at the top of this file.
+const sb = createClient(
+  'https://erjlsjnuuqbnmjtfbffh.supabase.co',
+  'sb_publishable_N456yNbeL4XKQ39VtCQONw_LfdZRffj',
+);
+
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const when = (iso) => new Date(iso).toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' });
+
+/** Signs one R2 key through the same edge function the app uses. */
+async function signedUrl(key) {
+  if (!key) return null;
+  const { data } = await sb.functions.invoke('photo-view-url', { body: { r2Key: key } });
+  return data?.url ?? null;
+}
+
+$('loginForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  $('loginMsg').textContent = 'Signing in…';
+  $('loginMsg').className = 'msg';
+  const { error } = await sb.auth.signInWithPassword({
+    email: $('email').value.trim(),
+    password: $('password').value,
+  });
+  if (error) {
+    $('loginMsg').textContent = error.message;
+    $('loginMsg').className = 'msg err';
+    return;
+  }
+  start();
+});
+
+async function start() {
+  const { data: { user } } = await sb.auth.getUser();
+  if (!user) return;
+
+  $('signin').classList.add('hide');
+  $('app').classList.remove('hide');
+  $('who').textContent = user.email ?? '';
+
+  await Promise.all([loadStats(), loadVerifications(), loadReports(), loadWaitlist()]);
+}
+
+async function loadStats() {
+  const { data } = await sb.rpc('admin_overview');
+  const s = (data ?? [])[0];
+  if (!s) {
+    // The honest reading of an empty result: the database declined, which for these
+    // functions means this account is not an admin.
+    $('stats').innerHTML = '<p class="empty">This account is not an admin, so there is nothing to show.</p>';
+    return;
+  }
+  const cells = [
+    ['People', s.people], ['Onboarded', s.onboarded], ['With location', s.with_location],
+    ['Verified', s.verified], ['Live matches', s.matches], ['Messages', s.messages],
+    ['Awaiting review', s.pending_verifications], ['Open reports', s.open_reports],
+    ['Waitlist', s.waitlist],
+  ];
+  $('stats').innerHTML = cells
+    .map(([label, n]) => `<div class="stat"><b>${esc(n)}</b><span>${esc(label)}</span></div>`)
+    .join('');
+}
+
+async function loadVerifications() {
+  const { data } = await sb.rpc('admin_verification_queue');
+  const rows = data ?? [];
+  $('vCount').textContent = rows.length ? `· ${rows.length} waiting` : '';
+
+  if (!rows.length) {
+    $('verifications').innerHTML = '<p class="empty">Nothing waiting.</p>';
+    return;
+  }
+
+  // Signed one row at a time. The queue is short by nature — if it is ever long enough
+  // for this to matter, the answer is more reviewers, not a bigger batch.
+  const html = await Promise.all(rows.map(async (r) => {
+    const [selfie, cover] = await Promise.all([signedUrl(r.selfie_key), signedUrl(r.cover_key)]);
+    return `
+      <div class="card" data-id="${esc(r.id)}">
+        <div class="gesture">
+          <div class="shot-label">They were asked to</div>
+          <b>${esc(r.gesture)}</b>
+        </div>
+        <div class="vrow">
+          <div>
+            <div class="shot-label">Selfie just taken</div>
+            ${selfie ? `<img class="shot" src="${esc(selfie)}" alt="">` : '<div class="shot"></div>'}
+          </div>
+          <div>
+            <div class="shot-label">Their cover photo</div>
+            ${cover ? `<img class="shot" src="${esc(cover)}" alt="">` : '<div class="shot"></div>'}
+          </div>
+          <div class="actions">
+            <div class="msg">${esc(r.name)}<br>${esc(when(r.created_at))}</div>
+            <button class="primary" data-approve="${esc(r.id)}">Same person</button>
+            <button class="bad" data-reject="${esc(r.id)}">Not a match</button>
+          </div>
+        </div>
+      </div>`;
+  }));
+  $('verifications').innerHTML = html.join('');
+}
+
+async function loadReports() {
+  const { data } = await sb.rpc('admin_report_queue');
+  const rows = data ?? [];
+  $('rCount').textContent = rows.length ? `· ${rows.length} open` : '';
+
+  if (!rows.length) {
+    $('reports').innerHTML = '<tr><td class="empty">Nothing open.</td></tr>';
+    return;
+  }
+  $('reports').innerHTML =
+    '<tr><th>When</th><th>Reported</th><th>By</th><th>Reason</th><th>Status</th><th></th></tr>' +
+    rows.map((r) => `
+      <tr>
+        <td>${esc(when(r.created_at))}</td>
+        <td>${esc(r.reported_name ?? '—')}</td>
+        <td>${esc(r.reporter_name ?? '—')}</td>
+        <td>${esc(r.reason)}${r.detail ? `<br><span class="msg">${esc(r.detail)}</span>` : ''}</td>
+        <td>${esc(r.status)}</td>
+        <td class="actions">
+          <button data-report="${esc(r.id)}" data-action="dismissed">No action</button>
+          <button data-report="${esc(r.id)}" data-action="warned">Warn</button>
+          <button class="bad" data-report="${esc(r.id)}" data-action="suspended">Suspend</button>
+        </td>
+      </tr>`).join('');
+}
+
+async function loadWaitlist() {
+  const { data } = await sb.rpc('admin_waitlist_by_area');
+  const rows = data ?? [];
+  if (!rows.length) {
+    $('waitlist').innerHTML = '<tr><td class="empty">Nobody yet.</td></tr>';
+    return;
+  }
+  // The ratio column is the one that decides when an area opens. A total on its own says
+  // nothing — an area that is 90% men is not ready however big it is.
+  $('waitlist').innerHTML =
+    '<tr><th>Area</th><th>Total</th><th>Women</th><th>Men</th><th>Other / unsaid</th><th>Ratio</th></tr>' +
+    rows.map((r) => {
+      const w = Number(r.women), m = Number(r.men);
+      const ratio = m > 0 ? `${Math.round((w / (w + m)) * 100)}% women` : w > 0 ? 'all women' : '—';
+      return `<tr>
+        <td>${esc(r.area)}</td><td>${esc(r.total)}</td><td>${esc(r.women)}</td>
+        <td>${esc(r.men)}</td><td>${esc(r.other_or_unspecified)}</td><td>${esc(ratio)}</td>
+      </tr>`;
+    }).join('');
+}
+
+document.addEventListener('click', async (e) => {
+  const t = e.target;
+  if (!(t instanceof HTMLElement)) return;
+
+  const approve = t.getAttribute('data-approve');
+  const reject = t.getAttribute('data-reject');
+  if (approve || reject) {
+    t.disabled = true;
+    const { error } = await sb.rpc('decide_verification', {
+      p_request: approve || reject,
+      p_approve: !!approve,
+    });
+    if (error) { alert(error.message); t.disabled = false; return; }
+    await Promise.all([loadVerifications(), loadStats()]);
+    return;
+  }
+
+  const report = t.getAttribute('data-report');
+  if (report) {
+    const action = t.getAttribute('data-action');
+    if (action === 'suspended' && !confirm('Suspend this account? They will be hidden from everyone until you lift it.')) return;
+    t.disabled = true;
+    const { error } = await sb.rpc('admin_resolve_report', { p_report: report, p_action: action });
+    if (error) { alert(error.message); t.disabled = false; return; }
+    await Promise.all([loadReports(), loadStats()]);
+  }
+});
+
+// A session survives a reload, so an already-signed-in operator skips the form.
+sb.auth.getSession().then(({ data }) => { if (data.session) start(); });
+</script>
+</body>
+</html>

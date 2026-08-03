@@ -1,0 +1,470 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Wobblenest — join the waitlist</title>
+<meta name="description" content="Wobblenest is a dating app for India that opens one neighbourhood at a time. Join the waitlist and we'll tell you the day yours opens." />
+<meta property="og:title" content="Wobblenest" />
+<meta property="og:description" content="Dating that opens one neighbourhood at a time. Join the waitlist." />
+<meta property="og:type" content="website" />
+<!-- Its own URL, not the domain root. The root is the landing page; this is where people
+     are sent when the ask is "join the waitlist", and a share card pointing at the wrong
+     one of the two lands them on a page with no form on it. -->
+<meta property="og:url" content="https://wobblenest.com/waitlist.html" />
+<meta property="og:image" content="https://wobblenest.com/logo.png" />
+<meta name="theme-color" content="#A85560" />
+<link rel="icon" type="image/png" href="favicon.png" />
+
+<!--
+  The waitlist.
+
+  WHY A WAITLIST AND NOT A DOWNLOAD BUTTON. A dating app is not experienced nationally, it
+  is experienced within about ten kilometres. Opening the doors on day one means every
+  early user's first session is of an empty app, and people do not come back later to check
+  whether it improved. Collecting first and opening a neighbourhood once it crosses a
+  threshold means everyone's first session is of a populated one.
+
+  WHAT EACH FIELD IS FOR, because a form that asks for more than it uses is a form people
+  abandon:
+    name      - so the opening email says "Hi Priya" rather than "Hi there"
+    email     - how a hundred people get told at once
+    phone     - how one person gets a WhatsApp; both are offered, either will do
+    area      - the unit that actually opens. A city is too coarse to act on
+    platform  - the app is Android-only at launch, so an iOS signup is somebody who must
+                be told that honestly now rather than discovering it later
+    gender    - the ratio decides when an area is ready; a total on its own hides it
+
+  THE SUPABASE KEY BELOW IS PUBLIC BY DESIGN. It is the anon key, the same one inside the
+  mobile app. What protects the list is that the table has an insert policy and no select
+  policy at all: this page can add a row and can read nothing back, not its own and not
+  anyone else's. A readable waitlist would be a public list of who signed up, where they
+  live and their gender. See migration 0025.
+-->
+
+<style>
+  :root {
+    --s1: 8px;  --s2: 16px; --s3: 24px; --s4: 32px;
+    --s5: 48px; --s6: 64px; --s7: 96px;
+
+    --bg: #FBF7F7;
+    --surface: #FFFFFF;
+    --ink: #2B1216;
+    --muted: #6C565C;
+    --muted-soft: #9E888D;
+    --line: #EFE3E4;
+    --accent: #A85560;
+    --accent-deep: #8E2438;
+    --accent-ink: #FFFFFF;
+    --accent-soft: #FBF1F2;
+    --sand: #DDD6C4;
+
+    /* 12 columns, 16px gutters: content lands on whole pixels rather than fractions,
+       which is what stops a technically-correct grid still reading as faintly ragged. */
+    --container: 620px;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #191C26;
+      --surface: #12141B;
+      --ink: #FFFFFF;
+      --muted: #A7ADBE;
+      --muted-soft: #767C8E;
+      --line: #282C3A;
+      --accent: #E8929C;
+      --accent-deep: #E8798E;
+      --accent-soft: #21242F;
+      --sand: #4A4636;
+    }
+  }
+
+  * { box-sizing: border-box; }
+
+  /* Every link, not just the footer's. The one in the form's fine print was rendering as
+     default browser blue on a warm palette — the only cold colour anywhere on the page. */
+  a { color: var(--accent-deep); }
+
+  html, body {
+    margin: 0; padding: 0;
+    background: var(--surface); color: var(--ink);
+    font: 16px/1.55 -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* The warm wash behind the header. Two soft radials rather than a hard band, so the
+     page reads as one surface instead of two stacked rectangles. */
+  .halo {
+    position: absolute; inset: 0 0 auto; height: 460px; z-index: -1;
+    background:
+      radial-gradient(680px 320px at 18% -8%, color-mix(in srgb, var(--accent) 22%, transparent), transparent 70%),
+      radial-gradient(520px 280px at 88% 4%, color-mix(in srgb, var(--sand) 40%, transparent), transparent 72%);
+  }
+
+  .wrap { width: 100%; max-width: var(--container); margin: 0 auto; padding: 0 var(--s3); }
+
+  header { padding-top: var(--s6); text-align: center; }
+
+  .mark {
+    width: 76px; height: 76px; border-radius: 22px; display: block; margin: 0 auto var(--s3);
+    box-shadow: 0 10px 30px -12px color-mix(in srgb, var(--accent-deep) 55%, transparent);
+  }
+
+  h1 {
+    margin: 0; font-size: clamp(30px, 7vw, 44px); line-height: 1.12;
+    letter-spacing: -0.025em; font-weight: 700;
+  }
+  h1 em { font-style: normal; color: var(--accent-deep); }
+
+  .lede {
+    margin: var(--s2) auto 0; max-width: 30em;
+    font-size: 17px; color: var(--muted);
+  }
+
+  section { margin-top: var(--s6); }
+
+  h2 {
+    margin: 0 0 var(--s2); font-size: 12px; font-weight: 700;
+    letter-spacing: 0.09em; text-transform: uppercase; color: var(--muted);
+  }
+
+  .points { margin: 0; padding: 0; list-style: none; display: grid; gap: var(--s2); }
+  .points li {
+    display: grid; grid-template-columns: 34px 1fr; gap: var(--s2); align-items: start;
+    background: var(--bg); border: 1px solid var(--line); border-radius: var(--s2);
+    padding: var(--s2);
+  }
+  .points b { display: block; font-weight: 650; margin-bottom: 2px; }
+  .points span { color: var(--muted); font-size: 15px; }
+  .ico {
+    width: 34px; height: 34px; border-radius: 11px; display: grid; place-items: center;
+    background: var(--accent-soft); font-size: 17px; line-height: 1;
+  }
+
+  form {
+    margin-top: var(--s3);
+    background: var(--bg); border: 1px solid var(--line); border-radius: var(--s3);
+    padding: var(--s3); display: grid; gap: var(--s3);
+  }
+
+  .field { display: grid; gap: var(--s1); }
+  label { font-size: 14px; font-weight: 650; }
+  .hint { font-size: 13px; font-weight: 400; color: var(--muted-soft); }
+
+  /* Email and phone are their own columns, side by side where there is room and stacked
+     where there is not — they were one field, which meant neither could be validated and
+     neither could be used without pulling the string apart again. */
+  .pair { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s2); }
+  @media (max-width: 520px) { .pair { grid-template-columns: 1fr; } }
+
+  input, select {
+    font: inherit; font-size: 16px; /* 16px or iOS zooms the page on focus */
+    width: 100%; color: var(--ink); background: var(--surface);
+    border: 1px solid var(--line); border-radius: 12px; padding: 14px var(--s2);
+    transition: border-color .15s, box-shadow .15s;
+  }
+  input:focus, select:focus {
+    outline: none; border-color: var(--accent);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 22%, transparent);
+  }
+  input::placeholder { color: var(--muted-soft); }
+
+  /* Segmented choices rather than a dropdown: three options that matter are worth seeing
+     without a tap, and the Android/iOS answer changes what we say back to them. */
+  .seg { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--s1); }
+  /* Sized to a pixel, not left at the inherited width:100%. An absolutely positioned
+     input resolves a percentage width against the initial containing block, not against
+     .seg — so each of these seven invisible radios was as wide as the viewport and pushed
+     the document 100px past its own right edge. Invisible, but a real horizontal scroll.
+     Kept in the layer rather than display:none so :focus-visible still reaches them. */
+  .seg input, .gender input {
+    position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none;
+  }
+  .seg label {
+    display: grid; place-items: center; gap: 2px; cursor: pointer; text-align: center;
+    border: 1px solid var(--line); border-radius: 12px; padding: 12px var(--s1);
+    background: var(--surface); font-size: 14px; font-weight: 600;
+    transition: border-color .15s, background .15s, color .15s;
+  }
+  .seg input:checked + label {
+    border-color: var(--accent); background: var(--accent-soft); color: var(--accent-deep);
+  }
+  .seg input:focus-visible + label { box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 22%, transparent); }
+  .seg .sub { font-size: 11px; font-weight: 500; color: var(--muted-soft); }
+  .seg input:checked + label .sub { color: var(--accent-deep); }
+
+  .gender { display: flex; flex-wrap: wrap; gap: var(--s1); }
+  /* 48px, not the 42px the padding alone gave: under the 44px minimum touch target these
+     are a chip people miss on a phone. 48 clears it and stays on the 8px scale. */
+  .gender label {
+    display: inline-flex; align-items: center; min-height: var(--s5);
+    cursor: pointer; border: 1px solid var(--line); border-radius: 999px;
+    padding: 0 var(--s2); font-size: 14px; font-weight: 550; background: var(--surface);
+  }
+  .gender input:checked + label { border-color: var(--accent); background: var(--accent-soft); color: var(--accent-deep); }
+
+  /* Hidden from people, offered to anything that fills every field it finds. Off-screen
+     rather than display:none — some bots skip undisplayed inputs. */
+  .trap { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+
+  button {
+    font: inherit; font-size: 16px; font-weight: 700; color: var(--accent-ink);
+    background: linear-gradient(180deg, var(--accent), var(--accent-deep));
+    border: 0; border-radius: 999px; padding: 16px var(--s3); cursor: pointer; width: 100%;
+    box-shadow: 0 8px 22px -10px color-mix(in srgb, var(--accent-deep) 80%, transparent);
+    transition: transform .12s, box-shadow .12s, opacity .12s;
+  }
+  button:hover:not(:disabled) { transform: translateY(-1px); }
+  button:active:not(:disabled) { transform: translateY(0); }
+  button:disabled { opacity: .55; cursor: default; box-shadow: none; }
+
+  .msg { font-size: 14px; margin: 0; min-height: 1.4em; }
+  .msg.err { color: #C0392B; }
+  .msg.ok { color: var(--accent-deep); font-weight: 650; }
+  .fine { font-size: 13px; color: var(--muted-soft); margin: 0; }
+
+  /* The whole form is replaced on success rather than a line added under it — a form still
+     sitting there invites a second submission that the unique index will only reject. */
+  .done { display: none; text-align: center; padding: var(--s5) var(--s3); }
+  .done .tick {
+    width: 56px; height: 56px; border-radius: 50%; margin: 0 auto var(--s2);
+    background: var(--accent-soft); color: var(--accent-deep);
+    display: grid; place-items: center; font-size: 26px;
+  }
+  body.sent form { display: none; }
+  body.sent .done { display: block; }
+
+  footer {
+    margin-top: var(--s7); padding: var(--s3) 0 var(--s5);
+    border-top: 1px solid var(--line);
+    font-size: 13px; color: var(--muted-soft);
+    display: flex; flex-wrap: wrap; gap: var(--s2); justify-content: space-between;
+  }
+  footer a { color: var(--muted); }
+</style>
+</head>
+<body>
+<div class="halo" aria-hidden="true"></div>
+
+<div class="wrap">
+  <header>
+    <img class="mark" src="logo.png" alt="Wobblenest" width="76" height="76" />
+    <h1>Dating that opens <em>one neighbourhood</em> at a time.</h1>
+    <p class="lede">
+      Most apps show you people three cities away. We would rather you had thirty worth
+      meeting this week, close to where you already are — so we open an area only once
+      there are enough people in it.
+    </p>
+  </header>
+
+  <section>
+    <h2>What you are joining</h2>
+    <ul class="points">
+      <li>
+        <span class="ico" aria-hidden="true">🤍</span>
+        <span><b>Dating, without the swipe.</b> You decide with a tap, on a card that shows a whole person rather than one cropped photo.</span>
+      </li>
+      <li>
+        <span class="ico" aria-hidden="true">🧭</span>
+        <span><b>Circle.</b> The same app asking a different question — who to go climbing with, not who to date. Kept completely separate.</span>
+      </li>
+      <li>
+        <span class="ico" aria-hidden="true">📅</span>
+        <span><b>Events.</b> Real things happening near you, hosted by people on the app. Often the easier first step.</span>
+      </li>
+      <li>
+        <span class="ico" aria-hidden="true">🫥</span>
+        <span><b>Your face, when you choose.</b> Blur your photos to strangers and reveal them when you match, or when you decide to.</span>
+      </li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Join the waitlist</h2>
+    <p class="fine">We will message you once, the day your area opens. Nothing else.</p>
+
+    <form id="f" novalidate>
+      <div class="field">
+        <label for="name">Your name</label>
+        <input id="name" type="text" autocomplete="given-name" placeholder="Priya" maxlength="80" />
+      </div>
+
+      <div class="pair">
+        <div class="field">
+          <label for="email">Email</label>
+          <input id="email" type="email" autocomplete="email" placeholder="you@example.com" inputmode="email" />
+        </div>
+        <div class="field">
+          <label for="phone">Phone</label>
+          <input id="phone" type="tel" autocomplete="tel" placeholder="+91 98765 43210" inputmode="tel" />
+        </div>
+      </div>
+      <p class="hint" style="margin:-16px 0 0">Either one is enough — whichever you would rather hear from us on.</p>
+
+      <div class="field">
+        <label for="area">Where you are</label>
+        <input id="area" type="text" autocomplete="address-level2" placeholder="Koramangala, Bengaluru" maxlength="80" />
+        <span class="hint">The neighbourhood, not just the city — that is the unit we open in.</span>
+      </div>
+
+      <div class="field">
+        <label>Your phone runs</label>
+        <div class="seg">
+          <input type="radio" name="platform" id="p-android" value="android" />
+          <!-- "first up", not "launching first": at 87px wide on a 375px screen the longer
+               phrase wrapped to a second line, so one of the three segments carried three
+               lines of text where its neighbours carried two. -->
+          <label for="p-android">Android<span class="sub">first up</span></label>
+          <input type="radio" name="platform" id="p-ios" value="ios" />
+          <label for="p-ios">iPhone<span class="sub">coming later</span></label>
+          <input type="radio" name="platform" id="p-other" value="other" />
+          <label for="p-other">Not sure<span class="sub">that's fine</span></label>
+        </div>
+        <!-- Said plainly rather than buried. Somebody on an iPhone should know before they
+             give us anything, not after they have waited for an opening that cannot
+             include them yet. -->
+        <span class="hint">We are launching on Android first. Tell us anyway — iPhone is next, and this is how we decide when.</span>
+      </div>
+
+      <div class="field">
+        <label>You are</label>
+        <div class="gender">
+          <input type="radio" name="gender" id="g-woman" value="Woman" /><label for="g-woman">Woman</label>
+          <input type="radio" name="gender" id="g-man" value="Man" /><label for="g-man">Man</label>
+          <input type="radio" name="gender" id="g-nb" value="Non-binary" /><label for="g-nb">Non-binary</label>
+          <input type="radio" name="gender" id="g-none" value="" /><label for="g-none">Rather not say</label>
+        </div>
+        <span class="hint">
+          Optional, and asked for one reason: an app that opens with everyone on one side of
+          it does not work for anyone. This is what tells us an area is actually ready.
+        </span>
+      </div>
+
+      <div class="trap" aria-hidden="true">
+        <label for="website">Do not fill this in</label>
+        <input id="website" type="text" tabindex="-1" autocomplete="off" />
+      </div>
+
+      <div>
+        <button id="go" type="submit">Join the waitlist</button>
+        <p class="msg" id="msg" role="status" aria-live="polite"></p>
+      </div>
+
+      <p class="fine">
+        We store what you enter above and nothing else — no tracking, no third-party
+        analytics on this page. Write to
+        <a href="mailto:helpdesk@wobblenest.com">helpdesk@wobblenest.com</a> any time to be
+        removed.
+      </p>
+    </form>
+
+    <div class="done" id="done">
+      <div class="tick" aria-hidden="true">✓</div>
+      <h3 style="margin:0 0 6px">You're on the list</h3>
+      <p class="fine" id="doneMsg">We'll be in touch the day your area opens.</p>
+    </div>
+  </section>
+
+  <footer>
+    <span>© <span id="yr">2026</span> Venros Tech</span>
+    <a href="mailto:helpdesk@wobblenest.com">helpdesk@wobblenest.com</a>
+  </footer>
+</div>
+
+<script>
+  // Public by design — see the note at the top of this file.
+  var SUPABASE_URL = 'https://erjlsjnuuqbnmjtfbffh.supabase.co';
+  var SUPABASE_ANON = 'sb_publishable_N456yNbeL4XKQ39VtCQONw_LfdZRffj';
+
+  document.getElementById('yr').textContent = String(new Date().getFullYear());
+
+  var form = document.getElementById('f');
+  var msg = document.getElementById('msg');
+  var go = document.getElementById('go');
+
+  function say(text, kind) {
+    msg.textContent = text;
+    msg.className = 'msg' + (kind ? ' ' + kind : '');
+  }
+
+  function checked(name) {
+    var el = document.querySelector('input[name="' + name + '"]:checked');
+    return el ? el.value : '';
+  }
+
+  function finish(text) {
+    document.getElementById('doneMsg').textContent = text;
+    document.body.classList.add('sent');
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    // A real person never sees this field, so anything in it came from something filling
+    // every input on the page. Answered with success rather than an error: telling a bot
+    // which check it failed is how the next attempt gets past it.
+    if (document.getElementById('website').value) {
+      finish("We'll be in touch the day your area opens.");
+      return;
+    }
+
+    var name = document.getElementById('name').value.trim();
+    var email = document.getElementById('email').value.trim();
+    var phone = document.getElementById('phone').value.trim();
+    var area = document.getElementById('area').value.trim();
+    var platform = checked('platform');
+    var gender = checked('gender');
+
+    // Checked here only to give a useful message. The database enforces the real
+    // constraints, because anything validated solely in a page can be skipped entirely.
+    if (!email && !phone) return say('We need one way to reach you — email or phone.', 'err');
+    if (email && email.indexOf('@') < 1) return say('That email does not look right.', 'err');
+    if (phone && phone.replace(/[^0-9]/g, '').length < 7) return say('That phone number looks too short.', 'err');
+    if (area.length < 2) return say('Which neighbourhood are you in?', 'err');
+
+    go.disabled = true;
+    say('Adding you…');
+
+    fetch(SUPABASE_URL + '/rest/v1/waitlist', {
+      method: 'POST',
+      headers: {
+        'apikey': SUPABASE_ANON,
+        'Authorization': 'Bearer ' + SUPABASE_ANON,
+        'Content-Type': 'application/json',
+        'Prefer': 'return=minimal'
+      },
+      body: JSON.stringify({
+        name: name || null,
+        email: email || null,
+        phone: phone || null,
+        area: area,
+        platform: platform || null,
+        gender: gender || null,
+        source: 'wobblenest.com'
+      })
+    }).then(function (res) {
+      if (res.ok) {
+        // Said differently for iPhone, because the honest answer is different. Letting an
+        // iOS signup read "the day your area opens" would be a promise we cannot keep on
+        // the timeline they will assume.
+        return finish(platform === 'ios'
+          ? "We'll tell you the moment the iPhone app is ready — Android opens first."
+          : "We'll be in touch the day your area opens.");
+      }
+      return res.text().then(function (body) {
+        // 409 is the unique index on email or phone. Already being on a waitlist is not an
+        // error worth showing as one — the person did the right thing twice.
+        if (res.status === 409 || body.indexOf('duplicate key') !== -1) {
+          return finish("You were already on the list — nothing more to do.");
+        }
+        say('That did not go through. Please try again, or email helpdesk@wobblenest.com.', 'err');
+        go.disabled = false;
+      });
+    }).catch(function () {
+      say('That did not go through. Please check your connection and try again.', 'err');
+      go.disabled = false;
+    });
+  });
+</script>
+</body>
+</html>
