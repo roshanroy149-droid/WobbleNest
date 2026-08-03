@@ -47,36 +47,36 @@
     --s1: 8px;  --s2: 16px; --s3: 24px; --s4: 32px;
     --s5: 48px; --s6: 64px; --s7: 96px;
 
-    --bg: #FBF7F7;
-    --surface: #FFFFFF;
-    --ink: #2B1216;
-    --muted: #6C565C;
-    --muted-soft: #9E888D;
-    --line: #EFE3E4;
-    --accent: #A85560;
-    --accent-deep: #8E2438;
+    /* Dark, always, and the same values as styles.css - not a light page with a dark
+       variant. This page is where every call to action on the site lands, and it used to
+       arrive white while the page you left was near-black. On a device set to light mode
+       that was a flash and a completely different brand; on one set to dark it was a third
+       palette again, navy, matching neither.
+
+       Note --surface is the page and --bg is the panel here, the opposite way round from
+       styles.css. Left alone rather than renamed: every rule below already reads that way. */
+    --surface: #17140F;
+    --bg: #241F19;
+    --ink: #EDE4D5;
+    --muted: #A79C89;
+    --muted-soft: #9A8F7D;
+    --line: #3A3226;
+    --accent: #D68089;
+    /* Light, not the #8E2438 of the light theme: this one is used as TEXT on dark panels
+       (the checked chips, the success tick, the h1 emphasis), where the deep maroon sits
+       at 2.4:1. */
+    --accent-deep: #E8798E;
     --accent-ink: #FFFFFF;
-    --accent-soft: #FBF1F2;
-    --sand: #DDD6C4;
+    --accent-soft: #3A2529;
+    --circle: #0F6E63;
+    --circle-lit: #2FB6A3;
 
-    /* 12 columns, 16px gutters: content lands on whole pixels rather than fractions,
-       which is what stops a technically-correct grid still reading as faintly ragged. */
+    /* Dating's maroon into Circle's teal, the same sweep the rest of the site uses, with
+       the same deliberate plum midpoint - straight sRGB between the two ends passes through
+       a muddy olive. */
+    --sweep: linear-gradient(120deg, #A82A46 0%, #6B3A55 50%, var(--circle) 100%);
+
     --container: 620px;
-  }
-
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --bg: #191C26;
-      --surface: #12141B;
-      --ink: #FFFFFF;
-      --muted: #A7ADBE;
-      --muted-soft: #767C8E;
-      --line: #282C3A;
-      --accent: #E8929C;
-      --accent-deep: #E8798E;
-      --accent-soft: #21242F;
-      --sand: #4A4636;
-    }
   }
 
   * { box-sizing: border-box; }
@@ -97,8 +97,8 @@
   .halo {
     position: absolute; inset: 0 0 auto; height: 460px; z-index: -1;
     background:
-      radial-gradient(680px 320px at 18% -8%, color-mix(in srgb, var(--accent) 22%, transparent), transparent 70%),
-      radial-gradient(520px 280px at 88% 4%, color-mix(in srgb, var(--sand) 40%, transparent), transparent 72%);
+      radial-gradient(680px 320px at 18% -8%, color-mix(in srgb, #8E2438 46%, transparent), transparent 70%),
+      radial-gradient(520px 280px at 88% 4%, color-mix(in srgb, var(--circle) 34%, transparent), transparent 72%);
   }
 
   .wrap { width: 100%; max-width: var(--container); margin: 0 auto; padding: 0 var(--s3); }
@@ -209,7 +209,7 @@
 
   button {
     font: inherit; font-size: 16px; font-weight: 700; color: var(--accent-ink);
-    background: linear-gradient(180deg, var(--accent), var(--accent-deep));
+    background: var(--sweep);
     border: 0; border-radius: 999px; padding: 16px var(--s3); cursor: pointer; width: 100%;
     box-shadow: 0 8px 22px -10px color-mix(in srgb, var(--accent-deep) 80%, transparent);
     transition: transform .12s, box-shadow .12s, opacity .12s;
@@ -367,7 +367,11 @@
 
   <footer>
     <span>© <span id="yr">2026</span> Venros Tech</span>
-    <a href="mailto:helpdesk@wobblenest.com">helpdesk@wobblenest.com</a>
+    <span>
+      <a href="index.html">Home</a> ·
+      <a href="privacy.html">Privacy</a> ·
+      <a href="mailto:helpdesk@wobblenest.com">helpdesk@wobblenest.com</a>
+    </span>
   </footer>
 </div>
 

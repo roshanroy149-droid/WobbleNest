@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Wobblenest">
+  <title>Wobblenest</title>
+  <rect width="64" height="64" rx="15" fill="#A85560"/>
+  <path d="M32 33.34615384615385C23.692307692307693 26.076923076923077, 18.5 21.923076923076923, 18.5 16.73076923076923a6.750000000000001 6.750000000000001 0 0 1 13.500000000000002 -2.5961538461538463a6.750000000000001 6.750000000000001 0 0 1 13.500000000000002 2.5961538461538463c0 5.1923076923076925, -5.1923076923076925 9.346153846153847, -13.500000000000002 16.615384615384617Z" fill="#FFFFFF" fill-opacity="1"/>
+  <path d="M18 42q14 10 28 0" fill="none" stroke="#FFFFFF" stroke-width="4.4" stroke-linecap="round"/>
+    <path d="M12 50q20 12 40 0" fill="none" stroke="#FFFFFF" stroke-width="4.4" stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 660 150" role="img" aria-label="The Wobblenest mark system">
+  <title>The Wobblenest mark system</title>
+
+  <g transform="translate(20 24)">
+    <rect width="88" height="88" rx="21" fill="#A85560" stroke="#FFFFFF" stroke-opacity=".35"/>
+    <g transform="translate(12 12) scale(1.0)">
+      <g transform="scale(1)"><path d="M32 33.34615384615385C23.692307692307693 26.076923076923077, 18.5 21.923076923076923, 18.5 16.73076923076923a6.750000000000001 6.750000000000001 0 0 1 13.500000000000002 -2.5961538461538463a6.750000000000001 6.750000000000001 0 0 1 13.500000000000002 2.5961538461538463c0 5.1923076923076925, -5.1923076923076925 9.346153846153847, -13.500000000000002 16.615384615384617Z" fill="#FFFFFF" fill-opacity="1"/>
+    <path d="M18 42q14 10 28 0" fill="none" stroke="#FFFFFF" stroke-width="4.4" stroke-linecap="round"/>
+    <path d="M12 50q20 12 40 0" fill="none" stroke="#FFFFFF" stroke-width="4.4" stroke-linecap="round"/></g>
+    </g>
+    <text x="44" y="112" text-anchor="middle" font-family="-apple-system, Segoe UI, Roboto, sans-serif"
+          font-size="13" font-weight="600" fill="#A79C89">Wobblenest</text>
+  </g>
+  <g transform="translate(148 24)">
+    <rect width="88" height="88" rx="21" fill="#3A1620" stroke="#E8798E" stroke-opacity=".35"/>
+    <g transform="translate(12 12) scale(1.0)">
+      <g transform="scale(1)"><path d="M38 31.576923076923077C32.15384615384615 26.46153846153846, 28.5 23.53846153846154, 28.5 19.884615384615387a4.75 4.75 0 0 1 9.5 -1.8269230769230769a4.75 4.75 0 0 1 9.5 1.8269230769230769c0 3.6538461538461537, -3.6538461538461537 6.576923076923077, -9.5 11.692307692307692Z" fill="#E8798E" fill-opacity="0.55"/><path d="M26 31.576923076923077C20.153846153846153 26.46153846153846, 16.5 23.53846153846154, 16.5 19.884615384615387a4.75 4.75 0 0 1 9.5 -1.8269230769230769a4.75 4.75 0 0 1 9.5 1.8269230769230769c0 3.6538461538461537, -3.6538461538461537 6.576923076923077, -9.5 11.692307692307692Z" fill="#E8798E" fill-opacity="1"/>
+    <path d="M18 42q14 10 28 0" fill="none" stroke="#E8798E" stroke-width="4.4" stroke-linecap="round"/>
+    <path d="M12 50q20 12 40 0" fill="none" stroke="#E8798E" stroke-width="4.4" stroke-linecap="round"/></g>
+    </g>
+    <text x="44" y="112" text-anchor="middle" font-family="-apple-system, Segoe UI, Roboto, sans-serif"
+          font-size="13" font-weight="600" fill="#A79C89">Dating</text>
+  </g>
+  <g transform="translate(276 24)">
+    <rect width="88" height="88" rx="21" fill="#193639" stroke="#2FB6A3" stroke-opacity=".35"/>
+    <g transform="translate(12 12) scale(1.0)">
+      <g transform="scale(1)"><circle cx="32" cy="12" r="3.4" fill="#2FB6A3" fill-opacity="1"/><circle cx="42.392304845413264" cy="18" r="3.4" fill="#2FB6A3" fill-opacity="0.62"/><circle cx="42.392304845413264" cy="30" r="3.4" fill="#2FB6A3" fill-opacity="0.62"/><circle cx="32" cy="36" r="3.4" fill="#2FB6A3" fill-opacity="0.62"/><circle cx="21.607695154586736" cy="30.000000000000004" r="3.4" fill="#2FB6A3" fill-opacity="0.62"/><circle cx="21.607695154586736" cy="18" r="3.4" fill="#2FB6A3" fill-opacity="0.62"/><circle cx="32" cy="24" r="4.6" fill="#2FB6A3" fill-opacity="0.9"/>
+    <path d="M18 42q14 10 28 0" fill="none" stroke="#2FB6A3" stroke-width="4.4" stroke-linecap="round"/>
+    <path d="M12 50q20 12 40 0" fill="none" stroke="#2FB6A3" stroke-width="4.4" stroke-linecap="round"/></g>
+    </g>
+    <text x="44" y="112" text-anchor="middle" font-family="-apple-system, Segoe UI, Roboto, sans-serif"
+          font-size="13" font-weight="600" fill="#A79C89">Circle</text>
+  </g>
+  <g transform="translate(404 24)">
+    <rect width="88" height="88" rx="21" fill="#371F2B" stroke="#9B7BA8" stroke-opacity=".35"/>
+    <g transform="translate(12 12) scale(1.0)">
+      <g transform="scale(1)"><circle cx="26" cy="18" r="6" fill="#9B7BA8" fill-opacity="1"/><path d="M17 34a9 9 0 0 1 18 0Z" fill="#9B7BA8"/><circle cx="39" cy="18" r="6" fill="#9B7BA8" fill-opacity="0.6"/><path d="M30 34a9 9 0 0 1 18 0Z" fill="#9B7BA8" fill-opacity=".6"/>
+    <path d="M18 42q14 10 28 0" fill="none" stroke="#9B7BA8" stroke-width="4.4" stroke-linecap="round"/>
+    <path d="M12 50q20 12 40 0" fill="none" stroke="#9B7BA8" stroke-width="4.4" stroke-linecap="round"/></g>
+    </g>
+    <text x="44" y="112" text-anchor="middle" font-family="-apple-system, Segoe UI, Roboto, sans-serif"
+          font-size="13" font-weight="600" fill="#A79C89">Duos</text>
+  </g>
+  <g transform="translate(532 24)">
+    <rect width="88" height="88" rx="21" fill="#221B10" stroke="#F2C46B" stroke-opacity=".35"/>
+    <g transform="translate(12 12) scale(1.0)">
+      <g transform="scale(1)"><rect x="19" y="14" width="26" height="24" rx="5" fill="none" stroke="#F2C46B" stroke-width="3.2"/><path d="M19 22h26" stroke="#F2C46B" stroke-width="3.2"/><path d="M26 10v7M38 10v7" stroke="#F2C46B" stroke-width="3.2" stroke-linecap="round"/><circle cx="32" cy="30" r="3.2" fill="#F2C46B" fill-opacity="1"/>
+    <path d="M18 42q14 10 28 0" fill="none" stroke="#F2C46B" stroke-width="4.4" stroke-linecap="round"/>
+    <path d="M12 50q20 12 40 0" fill="none" stroke="#F2C46B" stroke-width="4.4" stroke-linecap="round"/></g>
+    </g>
+    <text x="44" y="112" text-anchor="middle" font-family="-apple-system, Segoe UI, Roboto, sans-serif"
+          font-size="13" font-weight="600" fill="#A79C89">Events</text>
+  </g>
+</svg>
