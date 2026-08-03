@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Privacy Policy — Wobblenest</title>
+<meta name="description" content="What Wobblenest collects, why, who can see it, how long it is kept, and how to get it back or delete it." />
+<meta name="theme-color" content="#A85560" />
+<link rel="icon" type="image/png" href="favicon.png" />
+<meta property="og:title" content="Privacy Policy — Wobblenest" />
+<meta property="og:description" content="What Wobblenest collects, why, and how to get it back or delete it." />
+<meta property="og:image" content="icon.png" />
+<meta property="og:type" content="website" />
+<link rel="stylesheet" href="styles.css?v=3" />
+
+<!--
+  Written against what the app actually does, not from a template. Every specific figure
+  below - the 550m location grid, the 14-day deletion window, the selfie being destroyed at
+  the moment of decision - is a behaviour implemented in the database, and if any of them
+  changes this page is wrong and has to change with it. A privacy policy that describes
+  something the software does not do is worse than no policy at all.
+
+  Document-specific styling is inline rather than appended to styles.css for the same reason
+  404.html's is: that file is cached hard by the Pages CDN and shared with every other page,
+  so touching it means risking stale CSS site-wide to style one document.
+-->
+<style>
+  .doc { padding: var(--s7) 0 var(--s8); }
+
+  .doc-inner {
+    max-width: 720px;
+    margin: 0 auto;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+
+  .doc h1 {
+    font-family: 'Georgia', 'Iowan Old Style', serif;
+    font-size: clamp(32px, 5vw, 48px);
+    line-height: 1.12;
+    letter-spacing: -1px;
+    margin: 0 0 var(--s2);
+  }
+
+  .doc .updated {
+    font-size: 13px;
+    color: var(--muted-soft);
+    margin: 0 0 var(--s6);
+  }
+
+  .doc h2 {
+    font-family: 'Georgia', 'Iowan Old Style', serif;
+    font-size: 24px;
+    letter-spacing: -0.3px;
+    margin: var(--s7) 0 var(--s2);
+    padding-top: var(--s3);
+    border-top: 1px solid var(--line);
+  }
+
+  .doc h3 {
+    font-size: 16px;
+    margin: var(--s4) 0 var(--s1);
+    color: var(--ink);
+  }
+
+  .doc p, .doc li {
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--muted);
+  }
+
+  .doc p { margin: 0 0 var(--s2); }
+  .doc ul { margin: 0 0 var(--s2); padding-left: var(--s3); }
+  .doc li { margin-bottom: var(--s1); }
+  .doc strong { color: var(--ink); font-weight: 600; }
+  .doc a { color: var(--accent); }
+
+  /* The lead paragraph carries the summary someone gets if they read nothing else. */
+  .doc .lead {
+    font-size: 17px;
+    line-height: 1.65;
+    color: var(--ink);
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--accent);
+    border-radius: var(--s2);
+    padding: var(--s3);
+    margin-bottom: var(--s6);
+  }
+
+  /* Wide on a desktop, scrollable inside its own box on a phone - the page body itself must
+     never scroll sideways. */
+  .table-scroll {
+    overflow-x: auto;
+    border: 1px solid var(--line);
+    border-radius: var(--s2);
+    margin-bottom: var(--s3);
+  }
+
+  .doc table { border-collapse: collapse; width: 100%; min-width: 520px; }
+
+  .doc th, .doc td {
+    text-align: left;
+    vertical-align: top;
+    padding: var(--s2);
+    font-size: 14px;
+    line-height: 1.6;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .doc th { color: var(--ink); font-weight: 600; background: var(--surface); }
+  .doc td { color: var(--muted); }
+  .doc tr:last-child td { border-bottom: 0; }
+
+  .toc {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--s2);
+    padding: var(--s3);
+    margin-bottom: var(--s6);
+  }
+
+  .toc ol { margin: 0; padding-left: var(--s3); }
+  .toc li { margin-bottom: 6px; font-size: 14px; }
+  .toc a { color: var(--muted); text-decoration: none; }
+  .toc a:hover { color: var(--accent); }
+</style>
+</head>
+<body>
+
+<div class="bg-scene">
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+</div>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="brand" href="/">
+      <img src="icon.png" alt="Wobblenest" />
+      <span>Wobblenest</span>
+    </a>
+    <a class="nav-pill" href="waitlist.html">Join the waitlist</a>
+  </div>
+</nav>
+
+<main class="doc">
+  <div class="wrap">
+    <div class="doc-inner">
+
+      <h1>Privacy Policy</h1>
+      <p class="updated">Last updated 3 August 2026 · Applies to the Wobblenest mobile app and wobblenest.com</p>
+
+      <p class="lead">
+        Wobblenest is a dating app, which means the information you give it is unusually
+        personal. We do not sell it, we do not share it with advertisers, and there is no
+        analytics or tracking software anywhere in the app. You can take a copy of
+        everything we hold, or delete all of it, from inside the app at any time.
+      </p>
+
+      <div class="toc">
+        <ol>
+          <li><a href="#who">Who we are</a></li>
+          <li><a href="#collect">What we collect and why</a></li>
+          <li><a href="#dont">What we do not do</a></li>
+          <li><a href="#sees">Who can see what</a></li>
+          <li><a href="#location">Location, specifically</a></li>
+          <li><a href="#photos">Photos and verification</a></li>
+          <li><a href="#where">Where your data is held</a></li>
+          <li><a href="#keep">How long we keep it</a></li>
+          <li><a href="#rights">Your choices</a></li>
+          <li><a href="#age">Age</a></li>
+          <li><a href="#security">Security</a></li>
+          <li><a href="#changes">Changes to this policy</a></li>
+          <li><a href="#contact">Contact and complaints</a></li>
+        </ol>
+      </div>
+
+      <h2 id="who">1. Who we are</h2>
+      <p>
+        Wobblenest is operated by <strong>Venros Tech</strong>. In this policy "we" and "us"
+        mean Venros Tech, and "you" means the person using the app. We are the party that
+        decides what data the app collects and what happens to it.
+      </p>
+      <p>
+        For anything to do with your data — a question, a correction, a copy, a deletion, or
+        a complaint — write to
+        <a href="mailto:helpdesk@wobblenest.com">helpdesk@wobblenest.com</a>.
+      </p>
+
+      <h2 id="collect">2. What we collect and why</h2>
+      <p>
+        We ask for the least that makes the app work. Some of it is required to have an
+        account at all; the rest is optional and the app functions without it.
+      </p>
+
+      <div class="table-scroll">
+        <table>
+          <tr>
+            <th>What</th>
+            <th>Why we need it</th>
+            <th>Required?</th>
+          </tr>
+          <tr>
+            <td>Phone number</td>
+            <td>It is how you sign in. We send a one-time code to it and check the code. It is also how we keep one person from running many accounts.</td>
+            <td>Required</td>
+          </tr>
+          <tr>
+            <td>Name, date of birth</td>
+            <td>Your name is shown on your profile. Your date of birth is used to compute your age, to confirm you are over 18, and to apply other people's age filters. We show the age, never the date.</td>
+            <td>Required</td>
+          </tr>
+          <tr>
+            <td>Gender, orientation, what you are looking for</td>
+            <td>Deciding whose profile you are shown, and whose you appear in. This is sensitive information and it is used for matching and nothing else.</td>
+            <td>Required</td>
+          </tr>
+          <tr>
+            <td>Photos</td>
+            <td>Your profile. You choose which are public, which are private, and whether they are blurred to people you have not matched with.</td>
+            <td>Required (at least one)</td>
+          </tr>
+          <tr>
+            <td>Approximate location</td>
+            <td>Showing you people who are actually near you, and showing them a distance. See section 5 — we deliberately make this imprecise before storing it.</td>
+            <td>Optional, but distances do not work without it</td>
+          </tr>
+          <tr>
+            <td>Bio, prompts, interests, job, education, height</td>
+            <td>Your profile, and finding things you have in common with someone.</td>
+            <td>Optional</td>
+          </tr>
+          <tr>
+            <td>Religion, politics, drinking, smoking</td>
+            <td>Shown on your profile if you fill them in. Some are sensitive; all are optional and can be cleared at any time.</td>
+            <td>Optional</td>
+          </tr>
+          <tr>
+            <td>Voice prompt</td>
+            <td>A short recording on your profile, if you choose to make one.</td>
+            <td>Optional</td>
+          </tr>
+          <tr>
+            <td>Messages, likes, matches</td>
+            <td>Delivering your conversations and knowing who you have matched with.</td>
+            <td>Created by using the app</td>
+          </tr>
+          <tr>
+            <td>Blocks and reports</td>
+            <td>Keeping blocked people apart, and letting us act on reports. A report includes what you wrote in it.</td>
+            <td>Created by using the app</td>
+          </tr>
+          <tr>
+            <td>Verification selfie</td>
+            <td>Checking that the person in your cover photo is you. Destroyed as soon as the check is decided — see section 6.</td>
+            <td>Optional</td>
+          </tr>
+          <tr>
+            <td>Device signal</td>
+            <td>An identifier for the device and the result of an integrity check, used to detect ban evasion and automated sign-ups.</td>
+            <td>Automatic</td>
+          </tr>
+        </table>
+      </div>
+
+      <h2 id="dont">3. What we do not do</h2>
+      <p>These are not aspirations. They are statements about the software as it is today.</p>
+      <ul>
+        <li><strong>We do not sell your data</strong>, and we do not share it with data brokers.</li>
+        <li><strong>There is no analytics or tracking software in the app.</strong> No Google Analytics, no Firebase, no Sentry, no advertising SDK, no attribution or crash-reporting service. There is nothing in the app reporting your behaviour to a third party.</li>
+        <li><strong>We do not currently serve advertising.</strong> If that changes we will update this policy and say so in the app before any ad code ships.</li>
+        <li><strong>We do not read your conversations for advertising or profiling.</strong> We can access messages only where we have to — acting on a report, or complying with a legal order.</li>
+        <li><strong>We never ask for your precise location</strong> and the app does not request that permission.</li>
+        <li><strong>We do not store your verification selfie.</strong></li>
+      </ul>
+
+      <h2 id="sees">4. Who can see what</h2>
+      <h3>Other people using the app</h3>
+      <p>
+        Your name, age, photos that you have made public, city, approximate distance, and
+        anything you have written on your profile are visible to people the app shows you
+        to. Your exact date of birth, your phone number, and your location coordinates are
+        never shown to another user.
+      </p>
+      <p>
+        Photos you mark private are not visible to anyone until you grant that person
+        access, one person at a time, and you can revoke it. If you have blurring switched
+        on, people who have not matched with you see a blurred version and nothing else
+        until you decide otherwise.
+      </p>
+      <h3>Us</h3>
+      <p>
+        Access is limited to what is needed to run the service and to act on reports.
+        Reviewing a verification request, or a report someone has filed, are the two
+        routine reasons a person at Venros Tech looks at your content.
+      </p>
+      <h3>Third parties</h3>
+      <p>
+        Only the infrastructure providers in section 7, who process data on our
+        instructions, and anyone we are legally required to disclose to under a valid order.
+      </p>
+
+      <h2 id="location">5. Location, specifically</h2>
+      <p>
+        The app asks only for <strong>approximate</strong> location, never precise. Android
+        offers both; we request the coarse permission and block the fine one.
+      </p>
+      <p>
+        Beyond that, we deliberately destroy precision <em>before</em> writing anything down.
+        Your position is snapped to a grid of roughly <strong>550 metres</strong> at the
+        moment it is stored, so the coordinates in our database are not your location — they
+        are the corner of a large square that contains it. This is enforced in the database
+        itself, on every path that can write a location.
+      </p>
+      <p>
+        We do this because rounding the answer is not enough: a distance shown to several
+        people can be combined to work backwards to a point. Destroying the precision at the
+        input means there is nothing accurate to work back to. Distances are also shown
+        rounded, and never below one kilometre.
+      </p>
+
+      <h2 id="photos">6. Photos and verification</h2>
+      <p>
+        Photos are held in object storage and served through links that expire. A photo you
+        have not made public is not reachable by guessing a URL.
+      </p>
+      <p>
+        Verification works by asking you to take a selfie holding a gesture that we choose at
+        that moment, so a saved photo cannot be used. That selfie is compared against your
+        cover photo and then <strong>deleted as soon as the decision is made</strong> —
+        whether you were verified or not. We keep the outcome, never the image. Changing your
+        cover photo clears the badge, because the thing that was checked has changed.
+      </p>
+      <p>
+        Screenshots are blocked throughout the app. That is a real protection but not a
+        perfect one — nothing can stop someone photographing a screen with another device.
+        Please share accordingly.
+      </p>
+
+      <h2 id="where">7. Where your data is held</h2>
+      <p>
+        We use a small number of infrastructure providers, who process data only on our
+        instructions:
+      </p>
+      <ul>
+        <li><strong>Supabase</strong> — the database, your account, and sign-in. This includes sending your one-time sign-in code, which is passed to an SMS provider for delivery.</li>
+        <li><strong>Cloudflare R2</strong> — photo and audio storage.</li>
+        <li><strong>GitHub Pages</strong> — this website only. It holds no app data.</li>
+      </ul>
+      <p>
+        These providers operate infrastructure in several countries, so your information may
+        be processed outside India. We choose providers that contractually commit to
+        protecting it.
+      </p>
+
+      <h2 id="keep">8. How long we keep it</h2>
+      <ul>
+        <li><strong>While your account is open:</strong> for as long as you keep it.</li>
+        <li><strong>When you delete your account:</strong> you are removed from the app immediately — every match ends, and you stop appearing to anyone. Your data is then permanently erased after <strong>14 days</strong>. That gap exists so that a deletion made in anger, or by accident, can be undone. Within those 14 days you can cancel it; after them it cannot be recovered by us or by you.</li>
+        <li><strong>Verification selfies:</strong> destroyed at the moment the check is decided.</li>
+        <li><strong>Blocks and reports:</strong> kept after deletion where we need them to keep a blocked person from returning, or to act on a safety matter.</li>
+      </ul>
+
+      <h2 id="rights">9. Your choices</h2>
+      <p>All of these are in the app, under Settings, and none require writing to us:</p>
+      <ul>
+        <li><strong>Take a copy.</strong> Export everything we hold on you — your profile, photos, prompts, matches, messages, blocks and reports — as a single file.</li>
+        <li><strong>Correct it.</strong> Every profile field can be edited or cleared.</li>
+        <li><strong>Delete it.</strong> Delete your account, as described in section 8.</li>
+        <li><strong>Hide your face.</strong> Blur your photos to anyone you have not matched with, and reveal them per person.</li>
+        <li><strong>Block and report.</strong> Blocking is immediate and works in both directions.</li>
+        <li><strong>Withdraw permissions.</strong> Location, camera and microphone can be revoked in your phone's settings; the features that need them stop, and the rest of the app keeps working.</li>
+      </ul>
+      <p>
+        If you would rather we did any of this for you, or you want to know something this
+        page does not answer, write to
+        <a href="mailto:helpdesk@wobblenest.com">helpdesk@wobblenest.com</a>.
+      </p>
+
+      <h2 id="age">10. Age</h2>
+      <p>
+        Wobblenest is for adults. You must be <strong>18 or over</strong> to create an
+        account, and the app is not directed at children. If we find an account belongs to
+        someone under 18 we remove it. If you believe a minor is using the app, tell us at
+        <a href="mailto:helpdesk@wobblenest.com">helpdesk@wobblenest.com</a> and we will act.
+      </p>
+
+      <h2 id="security">11. Security</h2>
+      <p>
+        Data is encrypted in transit. Access to your data is enforced in the database itself
+        rather than only in the app, so a rule about who may read what cannot be bypassed by
+        a modified client. Private photos and blurred photos are filtered on the server: the
+        app is never sent an image the viewer is not entitled to see and told to hide it.
+      </p>
+      <p>
+        No service can promise it will never be breached. If a breach affects your personal
+        data, we will tell you and the relevant authority as required by law.
+      </p>
+
+      <h2 id="changes">12. Changes to this policy</h2>
+      <p>
+        If we change how the app handles your data, we will update this page and change the
+        date at the top. For a change that materially affects you — introducing advertising,
+        for instance — we will tell you in the app before it takes effect, not afterwards.
+      </p>
+
+      <h2 id="contact">13. Contact and complaints</h2>
+      <p>
+        Write to <a href="mailto:helpdesk@wobblenest.com">helpdesk@wobblenest.com</a>. We aim
+        to answer within a few days, and to resolve data requests within 30 days.
+      </p>
+      <p>
+        If you are not satisfied with how we have handled a complaint, you may raise it with
+        the data protection authority where you live.
+      </p>
+
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap footer-inner">
+    <div class="footer-brand">
+      <img src="icon.png" alt="Wobblenest" />
+      <span>Wobblenest</span>
+    </div>
+    <div class="footer-meta">
+      <a href="waitlist.html">Join the waitlist</a> ·
+      <a href="mailto:helpdesk@wobblenest.com">helpdesk@wobblenest.com</a>
+      <br>© 2026 Wobblenest. All rights reserved.
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

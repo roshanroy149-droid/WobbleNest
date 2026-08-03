@@ -32,24 +32,36 @@
      adaptive-icon background. What was missing was anything above it: every accent on the
      page sat at one low-chroma value, which is what read as dull rather than as calm. */
   --accent: #D68089;
-  --accent-hot: #FF5C7C;
+  --accent-hot: #FF8FA3;
   --accent-deep: #8E2438;
-  --accent-ink: #221116;
+  /* White, not the old near-black. The sweep below ends on #8E2438, where dark text sits
+     at 2.1:1 - unreadable. White runs 4.6:1 at the light end and 8.7:1 at the dark one. */
+  --accent-ink: #FFFFFF;
   --accent-soft: #3A2529;
   --gold: #F2C46B;
-  --highlight: #D9B564;
 
   --ph-a1: #C98A5E;
   --ph-a2: #A85560;
   --ph-b1: #8B6F8C;
-  --ph-b2: #5F7A70;
 
-  /* One warm sweep, used on the headline, the primary button and every accent rule, so the
-     page reads as one light source rather than several unrelated coloured things. */
-  --sweep: linear-gradient(100deg, var(--accent-hot) 0%, var(--accent) 42%, var(--gold) 100%);
+  /* Circle's own colours, lifted from the app's tokens.ts rather than picked to match.
+     Teal was chosen there because it is maroon's near-complement, so the two browse modes
+     can never be mistaken for each other. */
+  --circle: #0F6E63;
+  --circle-lit: #2FB6A3;
+
+  /* The gradient is the product, not a decoration: dating's maroon running into Circle's
+     teal is the one app holding both. The middle stop is deliberate - straight sRGB
+     interpolation between these two passes through a muddy olive, and a fixed plum midpoint
+     controls the path without depending on oklab support.
+     --sweep fills solid surfaces and carries white text (6.9:1 at the maroon end, 9.0:1
+     through the middle, 5.9:1 at the teal). --sweep-text tints text and hover edges and has
+     to stay light, because it sits on the near-black page where --sweep would disappear. */
+  --sweep: linear-gradient(120deg, #A82A46 0%, #6B3A55 50%, var(--circle) 100%);
+  --sweep-text: linear-gradient(100deg, #E8798E 0%, var(--circle-lit) 100%);
 
   --shadow: 0 20px 60px -20px rgba(0, 0, 0, 0.6);
-  --glow: 0 16px 44px -16px rgba(255, 92, 124, 0.55);
+  --glow: 0 16px 44px -16px rgba(142, 36, 56, 0.7);
 }
 
 * { box-sizing: border-box; }
@@ -86,8 +98,8 @@ img { max-width: 100%; display: block; }
   z-index: -1;
   overflow: hidden;
   background:
-    radial-gradient(780px 520px at 10% -8%, color-mix(in srgb, var(--accent-hot) 20%, transparent), transparent 62%),
-    radial-gradient(680px 540px at 106% 12%, color-mix(in srgb, var(--gold) 16%, transparent), transparent 58%),
+    radial-gradient(780px 520px at 10% -8%, color-mix(in srgb, var(--accent-deep) 34%, transparent), transparent 62%),
+    radial-gradient(680px 540px at 106% 12%, color-mix(in srgb, var(--circle) 26%, transparent), transparent 58%),
     var(--bg);
 }
 
@@ -102,9 +114,10 @@ img { max-width: 100%; display: block; }
   will-change: transform;
 }
 
-.blob-1 { width: 420px; height: 420px; left: -140px; top: 6%;    background: radial-gradient(circle at 35% 35%, var(--accent-hot), transparent 70%); animation-duration: 19s; }
-.blob-2 { width: 340px; height: 340px; right: -120px; top: 30%;  background: radial-gradient(circle at 35% 35%, var(--ph-b1), transparent 70%); animation-duration: 22s; animation-delay: -4s; }
-.blob-3 { width: 300px; height: 300px; left: 6%;    bottom: 8%;  background: radial-gradient(circle at 35% 35%, var(--gold), transparent 70%); animation-duration: 25s; animation-delay: -9s; }
+/* Maroon on one side, Circle's teal on the other, the same two colours as the sweep. */
+.blob-1 { width: 420px; height: 420px; left: -140px; top: 6%;    background: radial-gradient(circle at 35% 35%, var(--accent-deep), transparent 70%); animation-duration: 19s; }
+.blob-2 { width: 340px; height: 340px; right: -120px; top: 30%;  background: radial-gradient(circle at 35% 35%, var(--circle), transparent 70%); animation-duration: 22s; animation-delay: -4s; }
+.blob-3 { width: 300px; height: 300px; left: 6%;    bottom: 8%;  background: radial-gradient(circle at 35% 35%, var(--circle-lit), transparent 70%); animation-duration: 25s; animation-delay: -9s; }
 .blob-4 { width: 260px; height: 260px; right: 10%;  bottom: -80px; background: radial-gradient(circle at 35% 35%, var(--accent), transparent 70%); animation-duration: 18s; animation-delay: -12s; }
 
 @keyframes float {
@@ -114,7 +127,7 @@ img { max-width: 100%; display: block; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .blob, .heart, .orbit, .node, .string, .rail-track { animation: none !important; }
+  .blob, .sys-node, .sys-link, .rail-track { animation: none !important; }
 }
 
 /* ---------- Nav ---------- */
@@ -206,7 +219,7 @@ img { max-width: 100%; display: block; }
 /* Gradient text. -webkit-background-clip is the one that is actually honoured across
    browsers today; the unprefixed property is there so this is not a prefix-only rule. */
 .grad {
-  background: var(--sweep);
+  background: var(--sweep-text);
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
@@ -403,8 +416,8 @@ section { padding: var(--s8) 0; }
   background: var(--surface);
   border: 1px solid var(--line);
   border-radius: var(--s3);
-  padding: var(--s4);
-  min-height: 288px;
+  padding: var(--s3);
+  min-height: 416px;
   overflow: hidden;
   transition: transform .18s, border-color .18s, box-shadow .18s;
 }
@@ -443,6 +456,22 @@ section { padding: var(--s8) 0; }
   margin: 0;
 }
 
+/* The illustrated panel at the top of every feature card. It replaced a 48px icon chip,
+   which was legible but left the grid reading as eighteen paragraphs with a decoration.
+   Drawn as inline SVG rather than sourced as images: nothing to fetch, nothing to license,
+   nothing to 404 later, and each scene takes its colour from the card's own tint through
+   currentColor, so one c-* class drives both the wash and the artwork. */
+.art {
+  height: 128px;
+  border-radius: var(--s2);
+  margin-bottom: var(--s3);
+  overflow: hidden;
+  border: 1px solid var(--line);
+}
+
+.art svg { width: 100%; height: 100%; display: block; }
+
+/* Kept for any card that wants a chip instead of a panel. */
 .icon-wrap {
   width: var(--s6);
   height: var(--s6);
@@ -460,7 +489,8 @@ section { padding: var(--s8) 0; }
 .c-gold   { background: color-mix(in srgb, var(--gold) 16%, transparent);       color: var(--gold); }
 .c-a1     { background: color-mix(in srgb, var(--ph-a1) 18%, transparent);      color: var(--ph-a1); }
 .c-b1     { background: color-mix(in srgb, var(--ph-b1) 20%, transparent);      color: var(--ph-b1); }
-.c-b2     { background: color-mix(in srgb, var(--ph-b2) 20%, transparent);      color: var(--ph-b2); }
+/* Circle's real teal, so the Circle card's artwork is the colour Circle actually is. */
+.c-b2     { background: color-mix(in srgb, var(--circle-lit) 16%, transparent); color: var(--circle-lit); }
 .c-a2     { background: color-mix(in srgb, var(--ph-a2) 20%, transparent);      color: var(--accent); }
 
 /* ---------- Steps ---------- */
@@ -545,20 +575,25 @@ section { padding: var(--s8) 0; }
   margin-top: var(--s3);
 }
 
-/* ---------- Constellation graphic ---------- */
-.constellation {
-  position: relative;
+/* ---------- The system diagram ----------
+   Replaced a decorative constellation of coloured circles. Wobblenest sits in the middle
+   and the four things it holds - Dating and Duos on the maroon side, Circle and Events on
+   the teal one - connect into it, so the graphic states the same thing the gradient does.
+
+   Drawn as one SVG rather than absolutely-positioned divs so the arrangement is exactly
+   symmetric by construction: the satellites sit at x=150 and x=530 either side of a centre
+   at 340, and at y=72 and y=228 either side of 150. Both offsets are 190 and 78. */
+.system {
   width: 100%;
-  max-width: 620px;
-  height: 300px;
+  max-width: 680px;
   margin: var(--s7) auto 0;
 }
 
-.constellation svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.system svg { width: 100%; height: auto; display: block; overflow: visible; }
 
-.string {
+.sys-link {
   fill: none;
-  stroke: color-mix(in srgb, var(--accent) 45%, transparent);
+  stroke: var(--muted-soft);
   stroke-width: 1.5;
   stroke-dasharray: 4 7;
   animation: drift 9s linear infinite;
@@ -566,33 +601,27 @@ section { padding: var(--s8) 0; }
 
 @keyframes drift { to { stroke-dashoffset: -110; } }
 
-.node {
-  position: absolute;
-  border-radius: 50%;
-  border: 1px solid var(--line);
-  background: var(--surface);
-  overflow: hidden;
-  animation: float 14s ease-in-out infinite;
-  box-shadow: var(--shadow);
+.sys-node { animation: float 14s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+.sys-node:nth-of-type(2) { animation-delay: -3s; }
+.sys-node:nth-of-type(3) { animation-delay: -6s; }
+.sys-node:nth-of-type(4) { animation-delay: -9s; }
+
+.sys-label {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  fill: var(--muted);
+  text-anchor: middle;
 }
 
-.node img { width: 100%; height: 100%; object-fit: cover; }
-
-.node-1 { width: 96px;  height: 96px;  left: 6%;   top: 18%; }
-.node-2 { width: 72px;  height: 72px;  right: 12%; top: 8%;  background: radial-gradient(circle at 35% 30%, var(--ph-b1), var(--ph-b2)); animation-delay: -3s; }
-.node-3 { width: 64px;  height: 64px;  right: 18%; bottom: 12%; background: radial-gradient(circle at 35% 30%, var(--gold), var(--ph-a1)); animation-delay: -6s; }
-.node-4 { width: 112px; height: 112px; left: 44%;  top: 38%; animation-delay: -9s; }
-
-.heart {
-  position: absolute;
-  color: var(--accent-hot);
-  font-size: 15px;
-  animation: float 11s ease-in-out infinite;
+.sys-centre-label {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.4px;
+  fill: var(--muted-soft);
+  text-anchor: middle;
 }
-
-.heart-1 { left: 30%; top: 8%; }
-.heart-2 { right: 34%; bottom: 26%; animation-delay: -4s; }
-.heart-3 { left: 20%; bottom: 16%; animation-delay: -7s; }
 
 /* ---------- Footer ---------- */
 footer {
