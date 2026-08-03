@@ -130,16 +130,17 @@
 
   .points { margin: 0; padding: 0; list-style: none; display: grid; gap: var(--s2); }
   .points li {
-    display: grid; grid-template-columns: 34px 1fr; gap: var(--s2); align-items: start;
+    display: grid; grid-template-columns: 40px 1fr; gap: var(--s2); align-items: start;
     background: var(--bg); border: 1px solid var(--line); border-radius: var(--s2);
     padding: var(--s2);
   }
   .points b { display: block; font-weight: 650; margin-bottom: 2px; }
   .points span { color: var(--muted); font-size: 15px; }
   .ico {
-    width: 34px; height: 34px; border-radius: 11px; display: grid; place-items: center;
-    background: var(--accent-soft); font-size: 17px; line-height: 1;
+    width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center;
+    background: var(--accent-soft); overflow: hidden;
   }
+  .ico svg { width: 100%; height: 100%; display: block; }
 
   form {
     margin-top: var(--s3);
@@ -261,20 +262,28 @@
     <h2>What you are joining</h2>
     <ul class="points">
       <li>
-        <span class="ico" aria-hidden="true">🤍</span>
+        <span class="ico" aria-hidden="true" style="background:#3A1620"><svg viewBox="0 0 64 64"><path d="M38 31.576923076923077C32.15384615384615 26.46153846153846, 28.5 23.53846153846154, 28.5 19.884615384615387a4.75 4.75 0 0 1 9.5 -1.8269230769230769a4.75 4.75 0 0 1 9.5 1.8269230769230769c0 3.6538461538461537, -3.6538461538461537 6.576923076923077, -9.5 11.692307692307692Z" fill="#E8798E" fill-opacity="0.55"/><path d="M26 31.576923076923077C20.153846153846153 26.46153846153846, 16.5 23.53846153846154, 16.5 19.884615384615387a4.75 4.75 0 0 1 9.5 -1.8269230769230769a4.75 4.75 0 0 1 9.5 1.8269230769230769c0 3.6538461538461537, -3.6538461538461537 6.576923076923077, -9.5 11.692307692307692Z" fill="#E8798E" fill-opacity="1"/> <path d="M18 42q14 10 28 0" fill="none" stroke="#E8798E" stroke-width="4.4" stroke-linecap="round"/> <path d="M12 50q20 12 40 0" fill="none" stroke="#E8798E" stroke-width="4.4" stroke-linecap="round"/></svg></span>
         <span><b>Dating, without the swipe.</b> You decide with a tap, on a card that shows a whole person rather than one cropped photo.</span>
       </li>
       <li>
-        <span class="ico" aria-hidden="true">🧭</span>
+        <span class="ico" aria-hidden="true" style="background:#193639"><svg viewBox="0 0 64 64"><circle cx="32" cy="12" r="3.4" fill="#2FB6A3" fill-opacity="1"/><circle cx="42.392304845413264" cy="18" r="3.4" fill="#2FB6A3" fill-opacity="0.62"/><circle cx="42.392304845413264" cy="30" r="3.4" fill="#2FB6A3" fill-opacity="0.62"/><circle cx="32" cy="36" r="3.4" fill="#2FB6A3" fill-opacity="0.62"/><circle cx="21.607695154586736" cy="30.000000000000004" r="3.4" fill="#2FB6A3" fill-opacity="0.62"/><circle cx="21.607695154586736" cy="18" r="3.4" fill="#2FB6A3" fill-opacity="0.62"/><circle cx="32" cy="24" r="4.6" fill="#2FB6A3" fill-opacity="0.9"/> <path d="M18 42q14 10 28 0" fill="none" stroke="#2FB6A3" stroke-width="4.4" stroke-linecap="round"/> <path d="M12 50q20 12 40 0" fill="none" stroke="#2FB6A3" stroke-width="4.4" stroke-linecap="round"/></svg></span>
         <span><b>Circle.</b> The same app asking a different question — who to go climbing with, not who to date. Kept completely separate.</span>
       </li>
       <li>
-        <span class="ico" aria-hidden="true">📅</span>
+        <span class="ico" aria-hidden="true" style="background:#371F2B"><svg viewBox="0 0 64 64"><circle cx="26" cy="18" r="6" fill="#9B7BA8" fill-opacity="1"/><path d="M17 34a9 9 0 0 1 18 0Z" fill="#9B7BA8"/><circle cx="39" cy="18" r="6" fill="#9B7BA8" fill-opacity="0.6"/><path d="M30 34a9 9 0 0 1 18 0Z" fill="#9B7BA8" fill-opacity=".6"/> <path d="M18 42q14 10 28 0" fill="none" stroke="#9B7BA8" stroke-width="4.4" stroke-linecap="round"/> <path d="M12 50q20 12 40 0" fill="none" stroke="#9B7BA8" stroke-width="4.4" stroke-linecap="round"/></svg></span>
+        <span><b>Duos.</b> Pair up with a friend and meet another pair. Lower stakes than a first date on your own.</span>
+      </li>
+      <li>
+        <span class="ico" aria-hidden="true" style="background:#221B10"><svg viewBox="0 0 64 64"><rect x="19" y="14" width="26" height="24" rx="5" fill="none" stroke="#F2C46B" stroke-width="3.2"/><path d="M19 22h26" stroke="#F2C46B" stroke-width="3.2"/><path d="M26 10v7M38 10v7" stroke="#F2C46B" stroke-width="3.2" stroke-linecap="round"/><circle cx="32" cy="30" r="3.2" fill="#F2C46B" fill-opacity="1"/> <path d="M18 42q14 10 28 0" fill="none" stroke="#F2C46B" stroke-width="4.4" stroke-linecap="round"/> <path d="M12 50q20 12 40 0" fill="none" stroke="#F2C46B" stroke-width="4.4" stroke-linecap="round"/></svg></span>
         <span><b>Events.</b> Real things happening near you, hosted by people on the app. Often the easier first step.</span>
       </li>
       <li>
-        <span class="ico" aria-hidden="true">🫥</span>
+        <span class="ico" aria-hidden="true" style="background:var(--accent-soft)"><svg viewBox="0 0 64 64" fill="none" stroke="var(--accent)" stroke-width="4" stroke-linecap="round"><path d="M10 32s9-15 22-15 22 15 22 15-9 15-22 15S10 32 10 32Z"/><path d="M25 32h14M27 26h10M27 38h10"/></svg></span>
         <span><b>Your face, when you choose.</b> Blur your photos to strangers and reveal them when you match, or when you decide to.</span>
+      </li>
+      <li>
+        <span class="ico" aria-hidden="true" style="background:#193639"><svg viewBox="0 0 64 64" fill="none" stroke="#2FB6A3" stroke-width="4" stroke-linecap="round"><circle cx="32" cy="32" r="18"/><path d="M25 25h14M25 33h14M30 18v28"/><path d="M14 46 50 18"/></svg></span>
+        <span><b>Free to use.</b> Light ads pay for it, so browsing, matching and messaging cost nothing. If a paid option ever arrives it is one yearly price that turns the ads off — not a ladder of tiers.</span>
       </li>
     </ul>
   </section>
