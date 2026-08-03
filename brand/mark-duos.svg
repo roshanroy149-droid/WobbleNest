@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Duos">
   <title>Duos</title>
   <rect width="64" height="64" rx="15" fill="#371F2B"/>
-  <circle cx="26" cy="18" r="6" fill="#9B7BA8" fill-opacity="1"/><path d="M17 34a9 9 0 0 1 18 0Z" fill="#9B7BA8"/><circle cx="39" cy="18" r="6" fill="#9B7BA8" fill-opacity="0.6"/><path d="M30 34a9 9 0 0 1 18 0Z" fill="#9B7BA8" fill-opacity=".6"/>
+  <circle cx="25" cy="15" r="5" fill="#9B7BA8" fill-opacity="1"/><circle cx="39" cy="15" r="5" fill="#9B7BA8" fill-opacity="1"/><path d="M25 15h14" stroke="#9B7BA8" stroke-width="2.6" stroke-opacity=".55" stroke-linecap="round"/><circle cx="25" cy="31" r="5" fill="#9B7BA8" fill-opacity="0.58"/><circle cx="39" cy="31" r="5" fill="#9B7BA8" fill-opacity="0.58"/><path d="M25 31h14" stroke="#9B7BA8" stroke-width="2.6" stroke-opacity=".34" stroke-linecap="round"/>
   <path d="M18 42q14 10 28 0" fill="none" stroke="#9B7BA8" stroke-width="4.4" stroke-linecap="round"/>
     <path d="M12 50q20 12 40 0" fill="none" stroke="#9B7BA8" stroke-width="4.4" stroke-linecap="round"/>
 </svg>
