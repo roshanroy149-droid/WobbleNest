@@ -653,6 +653,75 @@ footer {
 .footer-meta a { text-decoration: none; color: var(--accent); font-weight: 600; }
 .footer-meta a:hover { color: var(--accent-hot); }
 
+/* ---------- Photographs ----------
+   Every photo sits inside .wrap, so its left and right edges land on the same lines as the
+   nav, the headings and the card grid. Heights are fixed rather than left to the image, so
+   a row of pictures shares a baseline instead of stepping by a few pixels. */
+.lead-shot { padding: 0 0 var(--s8); }
+
+.lead-shot figure { margin: 0; }
+
+.lead-shot img {
+  display: block;
+  width: 100%;
+  height: 420px;
+  object-fit: cover;
+  border-radius: var(--s3);
+  border: 1px solid var(--line);
+}
+
+.lead-shot figcaption {
+  margin-top: var(--s2);
+  text-align: center;
+  color: var(--muted-soft);
+  font-size: 15px;
+}
+
+.shots {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--s3);
+  grid-auto-rows: 1fr;
+}
+
+.shot-card {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--s3);
+  overflow: hidden;
+  transition: transform .18s, border-color .18s, box-shadow .18s;
+}
+
+.shot-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+
+/* flex-shrink:0 so the picture keeps its full height inside the flex column rather than
+   being squeezed to fit by the caption below it. */
+.shot-card img {
+  display: block;
+  width: 100%;
+  height: 260px;
+  flex-shrink: 0;
+  object-fit: cover;
+}
+
+.shot-card figcaption {
+  padding: var(--s3);
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.shot-card figcaption strong {
+  display: block;
+  margin-bottom: var(--s1);
+  color: var(--ink);
+  font-size: 18px;
+  font-weight: 650;
+}
+
 /* ---------- Responsive ----------
    Placed after every rule they override. Media queries add no specificity, so at equal
    specificity the later rule wins regardless of which one sounds more specific — an
@@ -661,6 +730,7 @@ footer {
   .grid { grid-template-columns: repeat(2, 1fr); }
   .steps { grid-template-columns: repeat(2, 1fr); }
   section { padding: var(--s7) 0; }
+  .lead-shot img { height: 340px; }
 }
 
 /* Single column: rows go back to auto and the floor is dropped. 1fr would make every card
@@ -669,6 +739,9 @@ footer {
 @media (max-width: 620px) {
   .grid { grid-template-columns: 1fr; grid-auto-rows: auto; }
   .steps { grid-template-columns: 1fr; grid-auto-rows: auto; }
+  .shots { grid-template-columns: 1fr; grid-auto-rows: auto; }
+  .lead-shot img { height: 240px; }
+  .shot-card img { height: 200px; }
   .card, .step { min-height: 0; }
   .card, .step { padding: var(--s3); }
   .hero { padding: var(--s7) 0 var(--s5); }
