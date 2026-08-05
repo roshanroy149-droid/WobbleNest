@@ -745,6 +745,79 @@ footer {
 
 .hero-join .btn { flex: 0 0 auto; }
 
+/* ---------- Nav link ---------- */
+.nav-link {
+  margin-left: auto;
+  margin-right: var(--s2);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--muted);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color .15s;
+}
+
+.nav-link:hover { color: var(--ink); }
+
+/* ---------- Safety pillars ----------
+   Two by two, uniform rows, same 24px gutter as every other grid on the page so the four
+   blocks land on the same column edges as the cards above and below them. */
+.pillars {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--s3);
+  grid-auto-rows: 1fr;
+}
+
+.pillar {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--s3);
+  padding: var(--s5);
+}
+
+.pillar h3 {
+  margin: 0 0 var(--s3);
+  font-size: 21px;
+  font-weight: 700;
+  letter-spacing: -0.2px;
+  color: var(--ink);
+}
+
+.pillar ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.pillar li {
+  position: relative;
+  padding-left: var(--s3);
+  margin-bottom: var(--s2);
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.65;
+}
+
+.pillar li:last-child { margin-bottom: 0; }
+
+/* A tick rather than a bullet: every line here is something the app does, not a list item. */
+.pillar li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 7px;
+  width: 9px;
+  height: 5px;
+  border-left: 2px solid var(--circle-lit);
+  border-bottom: 2px solid var(--circle-lit);
+  transform: rotate(-45deg);
+}
+
+.pillar li strong { color: var(--ink); font-weight: 650; }
+
 /* ---------- FAQ ---------- */
 .faq-list { max-width: 760px; margin: 0 auto; }
 
@@ -850,49 +923,61 @@ footer {
   letter-spacing: .2px;
 }
 
+/* A twelve-column mosaic rather than four equal cards. The photographs alternate wide and
+   narrow across the two rows, and each label sits ON its picture over a gradient, so the
+   section reads as photography rather than as a table of boxes with captions underneath.
+   Twelve columns divide whole at this width: (1080 - 11*24) / 12 = 68px exactly, so 7 cols
+   is 620px and 5 is 436px, and 620 + 24 + 436 lands back on 1080 with no sub-pixel edges. */
 .shots {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(12, 1fr);
   gap: var(--s3);
-  grid-auto-rows: 1fr;
+  grid-auto-rows: 300px;
 }
 
-.shot-card {
+.shot-wide { grid-column: span 7; }
+.shot-narrow { grid-column: span 5; }
+
+.shot {
+  position: relative;
   margin: 0;
-  display: flex;
-  flex-direction: column;
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: var(--s3);
   overflow: hidden;
-  transition: transform .18s, border-color .18s, box-shadow .18s;
+  border-radius: var(--s3);
+  border: 1px solid var(--line);
 }
 
-.shot-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
-
-/* flex-shrink:0 so the picture keeps its full height inside the flex column rather than
-   being squeezed to fit by the caption below it. */
-.shot-card img {
-  display: block;
+.shot img {
   width: 100%;
-  height: 260px;
-  flex-shrink: 0;
+  height: 100%;
   object-fit: cover;
+  transition: transform .5s ease;
 }
 
-.shot-card figcaption {
-  padding: var(--s3);
-  color: var(--muted);
+.shot:hover img { transform: scale(1.04); }
+
+/* The scrim is what makes white text safe on an unknown photograph. It runs from opaque at
+   the bottom to nothing by halfway, so faces in the upper half stay untouched. */
+.shot figcaption {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  padding: var(--s5) var(--s4) var(--s4);
+  background: linear-gradient(to top,
+    rgba(10, 8, 6, .92) 0%,
+    rgba(10, 8, 6, .72) 38%,
+    rgba(10, 8, 6, 0) 100%);
+  color: #EFE7DA;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   font-size: 15px;
-  line-height: 1.6;
+  line-height: 1.55;
 }
 
-.shot-card figcaption strong {
+.shot-tag {
   display: block;
-  margin-bottom: var(--s1);
-  color: var(--ink);
-  font-size: 18px;
-  font-weight: 650;
+  margin-bottom: 6px;
+  color: #FFFFFF;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.2px;
 }
 
 /* ---------- Responsive ----------
@@ -930,7 +1015,10 @@ footer {
   .grid { grid-template-columns: 1fr; grid-auto-rows: auto; }
   .steps { grid-template-columns: 1fr; grid-auto-rows: auto; }
   .shots { grid-template-columns: 1fr; grid-auto-rows: auto; }
-  .shot-card img { height: 200px; }
+  .pillars { grid-template-columns: 1fr; grid-auto-rows: auto; }
+  .pillar { padding: var(--s3); }
+  .shots { grid-template-columns: 1fr; grid-auto-rows: 240px; }
+  .shot-wide, .shot-narrow { grid-column: span 1; }
   .hero-art { aspect-ratio: 4 / 3; }
   .ph-shot { left: 10px; bottom: -14px; width: 136px; }
   .ph-shot-frame { height: 112px; }
