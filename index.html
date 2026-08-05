@@ -34,6 +34,8 @@
 
 <header class="hero" id="top">
   <div class="wrap">
+   <div class="hero-grid">
+    <div class="hero-copy">
     <span class="eyebrow"><span class="dot"></span>LAUNCHING SOON</span>
     <h1>Some connections are worth <em class="grad">building a nest</em> for.</h1>
     <p class="lede">
@@ -50,6 +52,31 @@
       Android first, iPhone next. We open each area as it fills, so your first session is not
       an empty app.
     </p>
+    </div><!-- /hero-copy -->
+
+    <!-- The photograph carries the headline's promise rather than decorating it: the couple
+         is sharp, and the profile card tucked into the corner is blurred with the lock on
+         it. That is what the app actually does, shown instead of claimed. aria-hidden and
+         empty alt because the caption beside it already says this in words - a screen
+         reader should not hear the same promise twice. -->
+    <div class="hero-art" aria-hidden="true">
+      <figure class="ph-main">
+        <img src="img/hero-meeting.jpg" width="1600" height="732" alt=""
+             fetchpriority="high" decoding="async">
+      </figure>
+      <figure class="ph-blur">
+        <img src="img/profile.jpg" width="460" height="504" alt="" decoding="async">
+        <figcaption>
+          <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor"
+               stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="4" y="10" width="16" height="11" rx="2.5"></rect>
+            <path d="M8 10V7a4 4 0 0 1 8 0v3"></path>
+          </svg>
+          Blurred until you choose
+        </figcaption>
+      </figure>
+    </div>
+   </div><!-- /hero-grid -->
 
     <!-- The list is written twice so the marquee can shift by exactly half its width and
          loop without a visible seam. aria-hidden on the duplicate: a screen reader should
@@ -108,18 +135,6 @@
     </div>
   </div>
 </header>
-
-<!-- One photograph between the hero and the feature grid. Width and height are declared so
-     the browser reserves the space before the image arrives and the hero does not jump. -->
-<section class="lead-shot">
-  <div class="wrap">
-    <figure>
-      <img src="img/hero-meeting.jpg" width="1600" height="732" alt=""
-           fetchpriority="high" decoding="async">
-      <figcaption>A first conversation, not a first impression.</figcaption>
-    </figure>
-  </div>
-</section>
 
 <section id="features">
   <div class="wrap">
