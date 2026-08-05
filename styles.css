@@ -704,6 +704,95 @@ footer {
   pointer-events: none;
 }
 
+/* ---------- Hero email capture ---------- */
+.sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.hero-join {
+  display: flex;
+  gap: var(--s1);
+  flex-wrap: wrap;
+  margin-bottom: var(--s2);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.hero-join input {
+  flex: 1 1 240px;
+  min-width: 0;
+  padding: var(--s2) var(--s3);
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--ink);
+  font-size: 15px;
+  font-family: inherit;
+}
+
+.hero-join input::placeholder { color: var(--muted-soft); }
+
+.hero-join input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 22%, transparent);
+}
+
+.hero-join .btn { flex: 0 0 auto; }
+
+/* ---------- FAQ ---------- */
+.faq-list { max-width: 760px; margin: 0 auto; }
+
+.faq-list details {
+  border-bottom: 1px solid var(--line);
+  padding: var(--s3) 0;
+}
+
+.faq-list details:first-child { border-top: 1px solid var(--line); }
+
+.faq-list summary {
+  cursor: pointer;
+  list-style: none;
+  font-size: 18px;
+  font-weight: 650;
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s2);
+}
+
+.faq-list summary::-webkit-details-marker { display: none; }
+
+/* A rotating + rather than a chevron glyph, so the open state is unmistakable without
+   loading an icon font or another SVG. */
+.faq-list summary::after {
+  content: '+';
+  flex: 0 0 auto;
+  font-size: 24px;
+  line-height: 1;
+  color: var(--accent);
+  transition: transform .18s;
+}
+
+.faq-list details[open] summary::after { transform: rotate(45deg); }
+
+.faq-list summary:hover { color: var(--accent); }
+
+.faq-list details p {
+  margin: var(--s2) 0 0;
+  padding-right: var(--s5);
+  color: var(--muted);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 15px;
+  line-height: 1.7;
+}
+
 .ph-main { position: absolute; inset: 0; margin: 0; z-index: 1; }
 
 .ph-main img {
@@ -718,13 +807,14 @@ footer {
 
 /* The blurred card overlaps the corner of the main photo. This is the product promise
    made visible: same app, one face you have chosen to show, one you have not. */
-/* Small enough to tuck into the corner. At 186px it stood almost as tall as the
-   photograph itself and covered one of the two faces, which is the opposite of the point. */
-.ph-blur {
+/* What a screenshot of the app actually looks like. Small enough to tuck into the corner
+   of the photograph without covering either face - at 186px an earlier version stood nearly
+   as tall as the photo itself and sat over one of them. */
+.ph-shot {
   position: absolute;
   left: -22px;
   bottom: -22px;
-  width: 148px;
+  width: 172px;
   margin: 0;
   z-index: 2;
   border-radius: var(--s3);
@@ -732,27 +822,27 @@ footer {
   border: 1px solid rgba(255, 255, 255, .14);
   box-shadow: 0 18px 44px rgba(0, 0, 0, .5);
   transform: rotate(-4deg);
+  background: #0B0A08;
 }
 
-/* scale(1.12) hides the transparent fringe a blur leaves at the edges of its own box. */
-.ph-blur img {
-  display: block;
-  width: 100%;
-  height: 178px;
-  object-fit: cover;
-  filter: blur(9px);
-  transform: scale(1.14);
-}
-
-.ph-blur figcaption {
-  position: absolute;
-  left: 0; right: 0; bottom: 0;
+/* Deliberately empty. The dashed edge reads as "a frame with nothing captured in it"
+   rather than as a black box that failed to load. */
+.ph-shot-frame {
+  height: 150px;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
-  padding: 9px 8px;
-  background: rgba(12, 10, 8, .74);
+  color: rgba(237, 228, 213, .38);
+  border-bottom: 1px solid rgba(255, 255, 255, .08);
+  background:
+    repeating-linear-gradient(45deg, rgba(255,255,255,.022) 0 10px, transparent 10px 20px),
+    #0B0A08;
+}
+
+.ph-shot figcaption {
+  padding: 10px 12px;
+  text-align: center;
+  background: rgba(12, 10, 8, .92);
   color: #F2EADD;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   font-size: 11.5px;
@@ -829,8 +919,8 @@ footer {
   .hero-art { aspect-ratio: 16 / 10; max-width: 560px; margin: 0 auto; }
   /* Inside the margin now, not hanging off the left edge — at this width a negative
      offset pushes the card past the viewport and the page scrolls sideways. */
-  .ph-blur { left: 12px; bottom: -18px; width: 160px; }
-  .ph-blur img { height: 200px; }
+  .ph-shot { left: 12px; bottom: -18px; width: 158px; }
+  .ph-shot-frame { height: 132px; }
 }
 
 /* Single column: rows go back to auto and the floor is dropped. 1fr would make every card
@@ -842,9 +932,9 @@ footer {
   .shots { grid-template-columns: 1fr; grid-auto-rows: auto; }
   .shot-card img { height: 200px; }
   .hero-art { aspect-ratio: 4 / 3; }
-  .ph-blur { left: 10px; bottom: -14px; width: 132px; }
-  .ph-blur img { height: 164px; }
-  .ph-blur figcaption { font-size: 10px; padding: 7px 6px; }
+  .ph-shot { left: 10px; bottom: -14px; width: 136px; }
+  .ph-shot-frame { height: 112px; }
+  .ph-shot figcaption { font-size: 10px; padding: 8px 6px; }
   .card, .step { min-height: 0; }
   .card, .step { padding: var(--s3); }
   .hero { padding: var(--s7) 0 var(--s5); }

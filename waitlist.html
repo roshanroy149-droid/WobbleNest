@@ -409,6 +409,18 @@
 
   document.getElementById('yr').textContent = String(new Date().getFullYear());
 
+  // The landing page's hero form submits here by GET, so an address typed there does not
+  // have to be typed again. Without this the handoff silently loses it and the inline field
+  // is worse than no field at all — it asks for something and then throws it away.
+  (function prefillFromQuery() {
+    var q = new URLSearchParams(window.location.search);
+    var email = (q.get('email') || '').trim();
+    if (!email) return;
+    document.getElementById('email').value = email.slice(0, 120);
+    var name = document.getElementById('name');
+    if (name && !name.value) name.focus();
+  })();
+
   var form = document.getElementById('f');
   var msg = document.getElementById('msg');
   var go = document.getElementById('go');
