@@ -4,9 +4,9 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Wobblenest — join the waitlist</title>
-<meta name="description" content="Wobblenest is a dating app where your photos stay yours — blurred to strangers until you choose, and impossible to screenshot. Join the waitlist." />
+<meta name="description" content="Wobblenest is a dating app where nothing can be screenshotted, recorded or cast — not your photos, not your chats. Join the waitlist." />
 <meta property="og:title" content="Wobblenest" />
-<meta property="og:description" content="Your photos stay yours — blurred until you choose, and impossible to screenshot. Join the waitlist." />
+<meta property="og:description" content="Nothing can be screenshotted, recorded or cast — not your photos, not your chats. Join the waitlist." />
 <meta property="og:type" content="website" />
 <!-- Its own URL, not the domain root. The root is the landing page; this is where people
      are sent when the ask is "join the waitlist", and a share card pointing at the wrong
@@ -103,12 +103,28 @@
 
   .wrap { width: 100%; max-width: var(--container); margin: 0 auto; padding: 0 var(--s3); }
 
-  header { padding-top: var(--s6); text-align: center; }
-
-  .mark {
-    width: 76px; height: 76px; border-radius: 22px; display: block; margin: 0 auto var(--s3);
-    box-shadow: 0 10px 30px -12px color-mix(in srgb, var(--accent-deep) 55%, transparent);
+  /* Matches the masthead on every other page: mark plus wordmark, left, with one link on
+     the right. This page has its own stylesheet, so the classes are local but the sizes and
+     colours are the same values .nav uses in styles.css. */
+  .wl-nav {
+    display: flex; align-items: center; justify-content: space-between; gap: var(--s2);
+    max-width: var(--container); margin: 0 auto; padding: var(--s2) var(--s3);
   }
+  .wl-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+  .wl-brand img {
+    width: 34px; height: 34px; border-radius: var(--s1);
+    box-shadow: 0 4px 14px -4px rgba(42, 37, 30, 0.4);
+  }
+  .wl-brand span {
+    font-size: 19px; font-weight: 700; letter-spacing: 0.2px; color: var(--ink);
+  }
+  .wl-back {
+    font-size: 14px; font-weight: 600; color: var(--muted);
+    text-decoration: none; white-space: nowrap;
+  }
+  .wl-back:hover { color: var(--ink); }
+
+  header { padding-top: var(--s5); text-align: center; }
 
   h1 {
     margin: 0; font-size: clamp(30px, 7vw, 44px); line-height: 1.12;
@@ -259,14 +275,23 @@
 <body>
 <div class="halo" aria-hidden="true"></div>
 
+<!-- The same masthead every other page carries. This page had a bare icon and no wordmark,
+     which is why it read as an older design than the site it belongs to. -->
+<nav class="wl-nav">
+  <a class="wl-brand" href="index.html">
+    <img src="icon.png" alt="" width="34" height="34" />
+    <span>Wobblenest</span>
+  </a>
+  <a class="wl-back" href="index.html">Back to the site</a>
+</nav>
+
 <div class="wrap">
   <header>
-    <img class="mark" src="logo.png" alt="Wobblenest" width="76" height="76" />
     <h1>Some connections are worth <em>building a nest</em> for.</h1>
     <p class="lede">
-      Your photos stay yours — blurred to strangers until you decide otherwise, and
-      impossible to screenshot anywhere in the app. Built in Bangalore by a small team with
-      no data business to run.
+      Nothing you send can be screenshotted, recorded or cast — not your photos, not your
+      chats, not anywhere in the app. Built in Bangalore by a small team with no data
+      business to run.
     </p>
 
     <p class="founder">
@@ -297,7 +322,7 @@
       </li>
       <li>
         <span class="ico" aria-hidden="true" style="background:var(--accent-soft)"><svg viewBox="0 0 64 64" fill="none" stroke="var(--accent)" stroke-width="4" stroke-linecap="round"><path d="M10 32s9-15 22-15 22 15 22 15-9 15-22 15S10 32 10 32Z"/><path d="M25 32h14M27 26h10M27 38h10"/></svg></span>
-        <span><b>Your face, when you choose.</b> Blur your photos to strangers and reveal them when you match, or when you decide to.</span>
+        <span><b>Nothing can be screenshotted.</b> Captures, recordings and casting come back blank on every screen. Blur your photos too if you waen you decide to.</span>
       </li>
       <li>
         <span class="ico" aria-hidden="true" style="background:#193639"><svg viewBox="0 0 64 64" fill="none" stroke="#2FB6A3" stroke-width="4" stroke-linecap="round"><circle cx="32" cy="32" r="18"/><path d="M25 25h14M25 33h14M30 18v28"/><path d="M14 46 50 18"/></svg></span>
