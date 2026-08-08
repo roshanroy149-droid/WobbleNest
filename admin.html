@@ -120,6 +120,26 @@
 
     <h2>Waitlist by area</h2>
     <div class="scroll"><table id="waitlist"></table></div>
+
+    <!--
+      People. A lookup, not a browser: you arrive here with an email address from a support
+      mail or a name from a report, and you leave with the row you needed to act on.
+    -->
+    <h2>People</h2>
+    <form class="signin" id="searchForm">
+      <input id="q" type="search" placeholder="Name, email, or profile id" autocomplete="off" />
+      <button type="submit">Search</button>
+    </form>
+    <div class="scroll"><table id="people"></table></div>
+    <div id="person"></div>
+
+    <!--
+      The audit log, which has been written to since the first moderation migration and read
+      by nothing until now. It matters more from today: this console can read conversations
+      and delete accounts, and both of those write a row here.
+    -->
+    <h2>Audit log</h2>
+    <div class="scroll"><table id="audit"></table></div>
   </div>
 </div>
 
@@ -167,8 +187,104 @@ async function start() {
   $('app').classList.remove('hide');
   $('who').textContent = user.email ?? '';
 
-  await Promise.all([loadStats(), loadVerifications(), loadReports(), loadWaitlist()]);
+  await Promise.all([loadStats(), loadVerifications(), loadReports(), loadWaitlist(), loadAudit()]);
 }
+
+/**
+ * Every destructive or privacy-touching action asks for a written reason, and the database
+ * rejects anything under ten characters. That is not ceremony: the audit row is the only
+ * account of why a stranger's conversation was opened or their account removed, and
+ * "because I clicked it" is not one. Cancelling returns null and nothing happens.
+ */
+function askReason(what) {
+  const reason = prompt(`${what}\n\nWhy? (at least 10 characters — this is recorded against your name)`);
+  if (reason === null) return null;
+  if (reason.trim().length < 10) {
+    alert('A reason of at least 10 characters is required.');
+    return null;
+  }
+  return reason.trim();
+}
+
+async function loadPeople(query) {
+  const { data, error } = await sb.rpc('admin_user_search', { p_query: query || null, p_limit: 25 });
+  if (error) { $('people').innerHTML = `<tr><td class="empty">${esc(error.message)}</td></tr>`; return; }
+  const rows = data ?? [];
+  if (!rows.length) {
+    $('people').innerHTML = '<tr><td class="empty">Nobody matches.</td></tr>';
+    return;
+  }
+  $('people').innerHTML =
+    '<tr><th>Name</th><th>Email</th><th>Joined</th><th>State</th><th>Reports</th><th></th></tr>' +
+    rows.map((r) => {
+      // Worst state wins, because that is the one an operator needs to see first.
+      const state = r.deleted ? 'deleted' : r.banned ? 'banned' : r.suspended ? 'suspended'
+        : !r.onboarded ? 'signing up' : r.verified ? 'verified' : 'active';
+      return `
+      <tr>
+        <td>${esc(r.name ?? '—')}</td>
+        <td>${esc(r.email ?? '—')}</td>
+        <td>${esc(when(r.created_at))}</td>
+        <td>${esc(state)}</td>
+        <td>${r.open_reports > 0 ? esc(r.open_reports) : ''}</td>
+        <td class="actions"><button data-person="${esc(r.id)}">Open</button></td>
+      </tr>`;
+    }).join('');
+}
+
+async function showPerson(id) {
+  const { data, error } = await sb.rpc('admin_profile_detail', { p_profile: id });
+  if (error) { $('person').innerHTML = `<p class="msg err">${esc(error.message)}</p>`; return; }
+  const p = (data ?? [])[0];
+  if (!p) { $('person').innerHTML = '<p class="msg">Not found.</p>'; return; }
+
+  const urls = await Promise.all((p.photo_keys ?? []).map(signedUrl));
+  const facts = [
+    ['Email', p.email], ['Born', p.date_of_birth], ['Job', p.job], ['City', p.city],
+    ['Joined', when(p.created_at)], ['Last active', p.last_active ? when(p.last_active) : '—'],
+    ['Verified', p.verified_at ? when(p.verified_at) : 'no'],
+    ['Suspended', p.suspended_at ? when(p.suspended_at) : 'no'],
+    ['Deleted', p.deleted_at ? when(p.deleted_at) : 'no'],
+  ];
+
+  $('person').innerHTML = `
+    <div class="card">
+      <h3>${esc(p.name ?? '—')}</h3>
+      <div class="shots">${urls.filter(Boolean).map((u) => `<img src="${esc(u)}" alt="" />`).join('')}</div>
+      <table>${facts.map(([k, v]) => `<tr><th>${esc(k)}</th><td>${esc(v ?? '—')}</td></tr>`).join('')}</table>
+      ${p.bio ? `<p>${esc(p.bio)}</p>` : ''}
+      ${(p.interests ?? []).length ? `<p class="msg">${esc((p.interests ?? []).join(' · '))}</p>` : ''}
+      <div class="actions">
+        ${p.suspended_at ? `<button data-unsuspend="${esc(p.id)}">Lift suspension</button>` : ''}
+        ${p.deleted_at ? '' : `<button class="bad" data-delete="${esc(p.id)}">Delete account</button>`}
+        <button data-close-person="1">Close</button>
+      </div>
+    </div>`;
+}
+
+async function loadAudit() {
+  const { data } = await sb.rpc('admin_audit_recent', { p_limit: 50 });
+  const rows = data ?? [];
+  if (!rows.length) {
+    $('audit').innerHTML = '<tr><td class="empty">Nothing yet.</td></tr>';
+    return;
+  }
+  $('audit').innerHTML =
+    '<tr><th>When</th><th>Who</th><th>Did</th><th>To</th><th>Why</th></tr>' +
+    rows.map((r) => `
+      <tr>
+        <td>${esc(when(r.at))}</td>
+        <td>${esc(r.admin_name ?? '—')}</td>
+        <td>${esc(r.action)}</td>
+        <td>${esc(r.target_name ?? '—')}</td>
+        <td>${esc(r.reason)}</td>
+      </tr>`).join('');
+}
+
+$('searchForm').addEventListener('submit', (e) => {
+  e.preventDefault();
+  void loadPeople($('q').value.trim());
+});
 
 async function loadStats() {
   const { data } = await sb.rpc('admin_overview');
@@ -249,9 +365,11 @@ async function loadReports() {
         <td>${esc(r.reason)}${r.detail ? `<br><span class="msg">${esc(r.detail)}</span>` : ''}</td>
         <td>${esc(r.status)}</td>
         <td class="actions">
+          <button data-convo="${esc(r.id)}">Read conversation</button>
           <button data-report="${esc(r.id)}" data-action="dismissed">No action</button>
           <button data-report="${esc(r.id)}" data-action="warned">Warn</button>
           <button class="bad" data-report="${esc(r.id)}" data-action="suspended">Suspend</button>
+          <div data-convo-out="${esc(r.id)}"></div>
         </td>
       </tr>`).join('');
 }
@@ -294,14 +412,65 @@ document.addEventListener('click', async (e) => {
     return;
   }
 
+  const person = t.getAttribute('data-person');
+  if (person) { await showPerson(person); return; }
+
+  if (t.getAttribute('data-close-person')) { $('person').innerHTML = ''; return; }
+
+  const unsuspend = t.getAttribute('data-unsuspend');
+  if (unsuspend) {
+    t.disabled = true;
+    const { error } = await sb.rpc('admin_unsuspend', { p_profile: unsuspend });
+    if (error) { alert(error.message); t.disabled = false; return; }
+    await Promise.all([showPerson(unsuspend), loadStats(), loadAudit()]);
+    return;
+  }
+
+  const del = t.getAttribute('data-delete');
+  if (del) {
+    if (!confirm('Delete this account?\n\nThey disappear immediately and every match and duo ends. Everything is erased for good after 14 days — the same path a user gets from Settings, so it can be reversed inside that window.')) return;
+    const reason = askReason('Deleting an account');
+    if (!reason) return;
+    t.disabled = true;
+    const { error } = await sb.rpc('admin_delete_account', { p_profile: del, p_reason: reason });
+    if (error) { alert(error.message); t.disabled = false; return; }
+    await Promise.all([showPerson(del), loadStats(), loadAudit(), loadPeople($('q').value.trim())]);
+    return;
+  }
+
+  // Reading the conversation a report is about. The function takes the report id, not two
+  // people, so there is no way to reach a chat that nobody complained about.
+  const convo = t.getAttribute('data-convo');
+  if (convo) {
+    const reason = askReason('Opening a reported conversation');
+    if (!reason) return;
+    t.disabled = true;
+    const { data, error } = await sb.rpc('admin_report_conversation', { p_report: convo, p_reason: reason });
+    t.disabled = false;
+    if (error) { alert(error.message); return; }
+    const msgs = data ?? [];
+    const box = document.querySelector(`[data-convo-out="${convo}"]`);
+    if (!box) return;
+    box.innerHTML = msgs.length
+      ? msgs.map((m) => `<div class="msg"><strong>${esc(m.sender_name ?? '—')}</strong> · ${esc(when(m.created_at))}<br>${esc(m.body ?? (m.has_attachment ? '[attachment]' : ''))}</div>`).join('')
+      : '<p class="msg">These two never exchanged a message.</p>';
+    await loadAudit();
+    return;
+  }
+
   const report = t.getAttribute('data-report');
   if (report) {
     const action = t.getAttribute('data-action');
     if (action === 'suspended' && !confirm('Suspend this account? They will be hidden from everyone until you lift it.')) return;
+    // The database now requires a written reason on every resolution, which it always
+    // should have — the audit column has carried a 10-character check since the first
+    // moderation migration, and the function was passing null into it.
+    const reason = askReason(`Resolving this report as "${action}"`);
+    if (!reason) return;
     t.disabled = true;
-    const { error } = await sb.rpc('admin_resolve_report', { p_report: report, p_action: action });
+    const { error } = await sb.rpc('admin_resolve_report', { p_report: report, p_action: action, p_note: reason });
     if (error) { alert(error.message); t.disabled = false; return; }
-    await Promise.all([loadReports(), loadStats()]);
+    await Promise.all([loadReports(), loadStats(), loadAudit()]);
   }
 });
 
